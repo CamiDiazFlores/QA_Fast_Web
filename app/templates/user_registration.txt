@@ -1,411 +1,267 @@
-════════════════════════════════════════════════════════════════════════════════
-⚠️ INSTRUCCIONES PARA MANUS IA - LEER PRIMERO
-════════════════════════════════════════════════════════════════════════════════
+[2:58 a. m., 22/11/2025] Velasquez: SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
 
-FORMATO DE RESPUESTA OBLIGATORIO:
-✅ SOLO código Python ejecutable
-✅ Primera línea DEBE ser: # Configuración
-✅ SIN texto adicional antes del código
-✅ SIN bloques markdown ```python```
-✅ SIN explicaciones ni análisis
-
-PROHIBIDO RESPONDER:
+PROHIBIDO:
 ❌ "Entendido"
-❌ "Voy a generar"
-❌ "Aquí está el código"
 ❌ Análisis del test
-❌ Reportes o comentarios fuera del código
+❌ Reportes
+❌ Explicaciones
+❌ Markdown python
 
-════════════════════════════════════════════════════════════════════════════════
-🧪 ESPECIFICACIÓN BDD - REGISTRO DE USUARIO
-════════════════════════════════════════════════════════════════════════════════
+OBLIGATORIO:
+✅ Primera línea debe ser: # Configuración
+✅ Solo código Python puro
+✅ Sin texto adicional antes o después del código
 
-Feature: Registro de nuevo usuario en la plataforma
-  Como visitante de la aplicación web
-  Quiero poder registrarme creando una cuenta nueva
-  Para acceder a los servicios y funcionalidades del sistema
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Background:
-  Given que dispongo de los siguientes datos de prueba:
-    | Campo              | Valor                  |
-    | URL                | https://www.celevro.com/login                  |
-    | Nombre             | Juan             |
-    | Apellido           | Pérez             |
-    | Email              | noexiste@example.com                |
-    | Contraseña         | Test123!@#             |
-    | Género             | Masculino               |
-    | Día nacimiento     | 15        |
-    | Mes nacimiento     | 06      |
-    | Año nacimiento     | 1990       |
-  And el navegador está configurado en modo visible
-  And tengo acceso a las siguientes funciones Python:
-    - driver (WebDriver de Selenium)
-    - By (localizadores)
-    - Keys (teclas especiales)
-    - time (delays)
-    - WebDriverWait (esperas explícitas)
-    - EC (Expected Conditions)
-    - save_screenshot() (captura de pantalla)
+TEST DE REGISTRO DE USUARIO
+URL: {url}
+Nombre: {fullname}
+Apellido: {lastname}
+Email: {email}
+Contraseña: {password}
+Género: {gender}
+Fecha: {birthdate_day}/{birthdate_month}/{birthdate_year}
 
-Scenario: Registro exitoso de usuario con todos los datos válidos
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # INICIALIZACIÓN
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  Given inicio el test mostrando en consola:
-    - Separador visual de 80 caracteres con símbolos "="
-    - Título "🚀 INICIO: REGISTRO DE USUARIO"
-    - Separador visual de 80 caracteres con símbolos "="
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 1: NAVEGACIÓN INICIAL
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 1: Navegando a https://www.celevro.com/login"
-  And navego a la URL "https://www.celevro.com/login" usando driver.get()
-  And espero 3 segundos para carga completa
-  And aplico al body de la página un borde de 5px color purple usando JavaScript
-  And muestro en consola "✅ Página cargada: [título de la página]"
-  And capturo screenshot de evidencia
-  Then espero 2 segundos adicionales
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 2: CAMPO NOMBRE
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 2: Ingresando nombre"
-  Then intento localizar el campo de nombre con estrategias múltiples:
-    - XPath: //input[@name='name' or @id='name' or contains(@placeholder, 'ombre')]
-    - Espera máxima: 10 segundos hasta que esté presente
-  
-  And cuando encuentro el campo:
-    - Aplico estilo CSS: borde 3px solid blue
-    - Hago scroll para centrar el elemento (scrollIntoView con block: 'center')
-    - Espero 1 segundo
-    - Limpio cualquier valor previo con .clear()
-    - Escribo "Juan" carácter por carácter con delay de 0.1 segundos entre cada letra
-    - Muestro en consola "✅ Nombre ingresado: Juan"
-    - Espero 1 segundo
-  
-  But si ocurre error:
-    - Capturo el error en variable
-    - Muestro en consola "⚠️ Error en nombre: [mensaje de error]"
-    - Capturo screenshot de evidencia
-    - Continúo con siguiente paso
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 3: CAMPO APELLIDO
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 3: Ingresando apellido"
-  Then intento localizar el campo de apellido con estrategias múltiples:
-    - XPath: //input[@name='lastname' or @id='lastname' or contains(@placeholder, 'pellido')]
-    - Espera máxima: 10 segundos hasta que esté presente
-  
-  And cuando encuentro el campo:
-    - Aplico estilo CSS: borde 3px solid blue
-    - Hago scroll para centrar el elemento (scrollIntoView con block: 'center')
-    - Espero 1 segundo
-    - Limpio cualquier valor previo con .clear()
-    - Escribo "Pérez" carácter por carácter con delay de 0.1 segundos entre cada letra
-    - Muestro en consola "✅ Apellido ingresado: Pérez"
-    - Espero 1 segundo
-  
-  But si ocurre error:
-    - Capturo el error en variable
-    - Muestro en consola "⚠️ Error en apellido: [mensaje de error]"
-    - Capturo screenshot de evidencia
-    - Continúo con siguiente paso
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 4: CAMPO EMAIL (CRÍTICO)
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 4: Ingresando email"
-  Then intento localizar el campo de email con estrategias múltiples:
-    - XPath: //input[@type='email' or @name='email' or @id='email']
-    - Espera máxima: 10 segundos hasta que esté presente
-  
-  And cuando encuentro el campo:
-    - Aplico estilo CSS: borde 3px solid green
-    - Hago scroll para centrar el elemento (scrollIntoView con block: 'center')
-    - Espero 1 segundo
-    - Limpio cualquier valor previo con .clear()
-    - Escribo "noexiste@example.com" carácter por carácter con delay de 0.1 segundos entre cada letra
-    - Muestro en consola "✅ Email ingresado: noexiste@example.com"
-    - Capturo screenshot de evidencia (campo crítico)
-    - Espero 1 segundo
-  
-  But si ocurre error:
-    - Capturo el error en variable
-    - Muestro en consola "❌ Error crítico en email: [mensaje de error]"
-    - Capturo screenshot de evidencia
-    - Continúo con siguiente paso
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 5: CAMPO CONTRASEÑA (CRÍTICO)
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 5: Ingresando contraseña"
-  Then intento localizar el campo de contraseña:
-    - XPath: //input[@type='password']
-    - Espera máxima: 10 segundos hasta que esté presente
-  
-  And cuando encuentro el campo:
-    - Aplico estilo CSS: borde 3px solid red
-    - Hago scroll para centrar el elemento (scrollIntoView con block: 'center')
-    - Espero 1 segundo
-    - Limpio cualquier valor previo con .clear()
-    - Para cada carácter de "Test123!@#":
-      * Escribo el carácter con delay de 0.1 segundos
-      * Muestro en consola asteriscos incrementales: 🔒 *, 🔒 **, 🔒 ***, etc.
-    - Al finalizar muestro "✅ Contraseña ingresada"
-    - Espero 1 segundo
-  
-  But si ocurre error:
-    - Capturo el error en variable
-    - Muestro en consola "❌ Error en contraseña: [mensaje de error]"
-    - Capturo screenshot de evidencia
-    - Continúo con siguiente paso
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 6: SELECCIÓN DE GÉNERO (OPCIONAL)
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 6: Seleccionando género"
-  Then intento localizar el select de género:
-    - XPath: //select[contains(@name, 'gender') or contains(@id, 'gender')]
-  
-  And si encuentro el select:
-    - Aplico estilo CSS: borde 3px solid orange
-    - Hago scroll para centrar el elemento (scrollIntoView con block: 'center')
-    - Espero 1 segundo
-    - Hago clic en el select para abrirlo
-    - Espero 0.5 segundos
-    - Localizo la opción que contenga el texto "Masculino"
-    - Hago clic en esa opción
-    - Muestro en consola "✅ Género seleccionado: Masculino"
-    - Espero 1 segundo
-  
-  But si no existe o hay error:
-    - Muestro en consola "⚠️ Género no requerido: [primeros 50 caracteres del error]"
-    - Continúo sin detener el flujo
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 7: FECHA DE NACIMIENTO (OPCIONAL)
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 7: Ingresando fecha de nacimiento"
-  Then intento localizar los campos de fecha:
-    - Campo DÍA: XPath //input[contains(@placeholder, 'DD') or @name='day']
-    - Campo MES: XPath //input[contains(@placeholder, 'MM') or @name='month']
-    - Campo AÑO: XPath //input[contains(@placeholder, 'AAAA') or @name='year']
-  
-  And si encuentro los campos:
-    - Para el campo día:
-      * Hago scroll para centrar (scrollIntoView con block: 'center')
-      * Escribo "15"
-    - Para el campo mes:
-      * Escribo "06"
-    - Para el campo año:
-      * Escribo "1990"
-    - Muestro en consola "✅ Fecha: 15/06/1990"
-    - Capturo screenshot de evidencia
-    - Espero 1 segundo
-  
-  But si no existen o hay error:
-    - Muestro en consola "⚠️ Fecha no requerida: [primeros 50 caracteres del error]"
-    - Continúo sin detener el flujo
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 8: TÉRMINOS Y CONDICIONES (OPCIONAL)
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 8: Aceptando términos"
-  Then intento localizar checkbox:
-    - XPath: //input[@type='checkbox']
-  
-  And si encuentro el checkbox:
-    - Verifico si NO está seleccionado (not is_selected())
-    - Si no está marcado:
-      * Hago scroll para centrar (scrollIntoView con block: 'center')
-      * Espero 0.5 segundos
-      * Hago clic en el checkbox
-      * Muestro en consola "✅ Términos aceptados"
-      * Espero 1 segundo
-  
-  But si no existe:
-    - Muestro en consola "⚠️ Checkbox opcional"
-    - Continúo sin detener el flujo
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 9: ENVÍO DEL FORMULARIO (CRÍTICO)
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 9: Enviando formulario"
-  Then intento localizar el botón de envío con múltiples estrategias:
-    - XPath: //button[@type='submit' or contains(text(), 'Confirmar') or contains(text(), 'Registr')]
-    - Espera máxima: 10 segundos hasta que sea clickeable
-  
-  And cuando encuentro el botón:
-    - Aplico estilo CSS: borde 5px solid green
-    - Hago scroll para centrar el elemento (scrollIntoView con block: 'center')
-    - Espero 2 segundos para visualización
-    - Capturo screenshot antes del clic
-    - Hago clic en el botón
-    - Muestro en consola "✅ Formulario enviado"
-    - Espero 5 segundos para procesamiento del servidor
-  
-  But si ocurre error:
-    - Capturo el error en variable
-    - Muestro en consola "❌ Error al enviar: [mensaje de error]"
-    - Capturo screenshot de evidencia
-    - Continúo con validación
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # PASO 10: VALIDACIÓN DE RESULTADO (CRÍTICO)
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  When muestro en consola "\n📍 PASO 10: Validando registro"
-  And espero 3 segundos para renderizado de respuesta
-  Then obtengo la URL actual del navegador
-  And muestro en consola "🔗 URL actual: [url]"
-  
-  And busco mensajes de éxito usando múltiples estrategias XPath:
-    - //*[contains(text(), 'bienvenido')]
-    - //*[contains(text(), 'éxito')]
-    - //*[contains(text(), 'registrado')]
-    - //div[contains(@class, 'success')]
-  
-  And para cada selector intento:
-    - Localizar el elemento
-    - Verificar si está visible (is_displayed())
-    - Si está visible:
-      * Aplico estilo CSS: borde 5px solid green
-      * Hago scroll para centrarlo (scrollIntoView con block: 'center')
-      * Obtengo el texto del elemento
-      * Muestro en consola "✅ Mensaje: [texto del elemento]"
-      * Marco como registro_exitoso = True
-      * Detengo la búsqueda
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # EVALUACIÓN FINAL Y REPORTE
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  Then evalúo el resultado final:
-  
-  If registro_exitoso == True OR "dashboard" in URL actual (minúsculas):
-    - Muestro en consola nueva línea + separador de 80 "="
-    - Muestro en consola "✅ REGISTRO EXITOSO"
-    - Muestro en consola separador de 80 "="
-    - Inyecto elemento HTML flotante usando JavaScript con:
-      * Crear div nuevo
-      * innerHTML: '✅ REGISTRO EXITOSO'
-      * Estilos CSS inline:
-        - position: fixed
-        - top: 50%, left: 50%
-        - transform: translate(-50%, -50%)
-        - background: green
-        - color: white
-        - padding: 60px
-        - font-size: 32px
-        - z-index: 10000
-        - border-radius: 20px
-      * Agregar al body
-    - Capturo screenshot final de evidencia
-    - Espero 3 segundos para visualización
-  
-  Else:
-    - Muestro en consola "\n❌ REGISTRO FALLIDO"
-    - Capturo screenshot de evidencia del fallo
-  
-  # ═══════════════════════════════════════════════════════════════════════════
-  # CIERRE DEL TEST
-  # ═══════════════════════════════════════════════════════════════════════════
-  
-  And finalmente:
-    - Muestro en consola "\n🏁 FIN DEL TEST"
-    - Muestro separador de 80 "="
+GENERA AHORA EL CÓDIGO (sin texto adicional):
 
-════════════════════════════════════════════════════════════════════════════════
-🤖 REQUISITOS TÉCNICOS PARA MANUS IA
-════════════════════════════════════════════════════════════════════════════════
+# Configuración
+url = "{url}"
+fullname = "{fullname}"
+lastname = "{lastname}"
+email = "{e…
+[2:58 a. m., 22/11/2025] Velasquez: SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
 
-IMPLEMENTACIÓN REQUERIDA:
+PROHIBIDO:
+❌ "Entendido"
+❌ Análisis del test
+❌ Reportes
+❌ Explicaciones
+❌ Markdown python
 
-1. ESTRUCTURA DEL CÓDIGO:
-   ✅ Primera línea: # Configuración
-   ✅ Definir todas las variables de datos en bloque inicial
-   ✅ Usar estructura secuencial paso a paso
-   ✅ Implementar try-except en cada paso crítico
-   ✅ Continuar ejecución aunque pasos opcionales fallen
+OBLIGATORIO:
+✅ Primera línea debe ser: # Configuración
+✅ Solo código Python puro
+✅ Sin texto adicional antes o después del código
 
-2. TECNOLOGÍAS Y LIBRERÍAS:
-   ✅ Selenium WebDriver (driver ya configurado)
-   ✅ WebDriverWait con timeout de 10 segundos
-   ✅ Expected Conditions (EC)
-   ✅ By para estrategias de localización (XPATH, CSS)
-   ✅ time.sleep() para delays visuales
-   ✅ JavaScript execution para estilos y elementos dinámicos
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-3. ESTRATEGIAS DE LOCALIZACIÓN:
-   ✅ Usar XPath con operador OR (|) para múltiples alternativas
-   ✅ Combinar atributos: @name, @id, @type, @placeholder
-   ✅ Usar contains() para búsquedas parciales de texto
-   ✅ Implementar fallbacks para campos opcionales
+TEST DE REGISTRO DE USUARIO
+URL: {url}
+Nombre: {fullname}
+Apellido: {lastname}
+Email: {email}
+Contraseña: {password}
+Género: {gender}
+Fecha: {birthdate_day}/{birthdate_month}/{birthdate_year}
 
-4. INTERACCIONES VISUALES:
-   ✅ Aplicar bordes de colores a cada campo antes de interactuar
-   ✅ Usar scrollIntoView con block: 'center' para centrar elementos
-   ✅ Simular escritura humana (delay 0.1s entre caracteres)
-   ✅ Mostrar feedback visual en tiempo real
-   ✅ Inyectar banner HTML flotante para resultado final
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-5. CAPTURA DE EVIDENCIAS:
-   ✅ Screenshots en puntos críticos usando save_screenshot()
-   ✅ Screenshots en cada error detectado
-   ✅ Screenshot final del resultado
+GENERA AHORA EL CÓDIGO (sin texto adicional):
 
-6. LOGS Y TRAZABILIDAD:
-   ✅ Emoji descriptivos (🚀, 📍, ✅, ❌, ⚠️, 🔒, 🔗, 🏁)
-   ✅ Separadores visuales con "=" * 80
-   ✅ Mensajes paso a paso numerados
-   ✅ Feedback en tiempo real de acciones
+# Configuración
+url = "{url}"
+fullname = "{fullname}"
+lastname = "{lastname}"
+email = "{email}"
+password = "{password}"
+gender = "{gender}"
+birthdate_day = "{birthdate_day}"
+birthdate_month = "{birthdate_month}"
+birthdate_year = "{birthdate_year}"
 
-7. MANEJO DE ERRORES:
-   ✅ No detener ejecución en campos opcionales
-   ✅ Capturar excepciones con mensaje descriptivo
-   ✅ Continuar flujo después de errores no críticos
-   ✅ Reportar errores críticos pero intentar continuar
+print("=" * 80)
+print("🚀 INICIO: REGISTRO DE USUARIO")
+print("=" * 80)
 
-8. FORMATO DE SALIDA:
-   ✅ SOLO código Python ejecutable
-   ✅ NO incluir explicaciones fuera del código
-   ✅ NO usar bloques markdown
-   ✅ Primera línea: # Configuración
-   ✅ Última línea del código debe ser funcional
+# PASO 1: Navegación
+print("\n📍 PASO 1: Navegando a {{url}}")
+driver.get(url)
+time.sleep(3)
+driver.execute_script("document.body.style.border='5px solid purple';")
+print(f"✅ Página cargada: {{driver.title}}")
+save_screenshot()
+time.sleep(2)
 
-DATOS DE ENTRADA (usar exactamente estas variables):
-- url = "https://www.celevro.com/login"
-- fullname = "Juan"
-- lastname = "Pérez"
-- email = "noexiste@example.com"
-- password = "Test123!@#"
-- gender = "Masculino"
-- birthdate_day = "15"
-- birthdate_month = "06"
-- birthdate_year = "1990"
+# PASO 2: Campo Nombre
+print("\n📍 PASO 2: Ingresando nombre")
+try:
+    name_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@name='name' or @id='name' or contains(@placeholder, 'ombre')]"))
+    )
+    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{block: 'center'}});", name_field)
+    time.sleep(1)
+    name_field.clear()
+    for char in fullname:
+        name_field.send_keys(char)
+        time.sleep(0.1)
+    print(f"✅ Nombre ingresado: {{fullname}}")
+    time.sleep(1)
+except Exception as e:
+    print(f"⚠️ Error en nombre: {{e}}")
+    save_screenshot()
 
-CONTEXTO DISPONIBLE (NO declarar, ya existen):
-- driver: WebDriver configurado
-- By: Clase de selectores
-- Keys: Teclas especiales
-- time: Módulo de tiempo
-- WebDriverWait: Esperas explícitas
-- EC: Expected Conditions
-- save_screenshot(): Función para capturas
+# PASO 3: Campo Apellido
+print("\n📍 PASO 3: Ingresando apellido")
+try:
+    lastname_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@name='lastname' or @id='lastname' or contains(@placeholder, 'pellido')]"))
+    )
+    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{block: 'center'}});", lastname_field)
+    time.sleep(1)
+    lastname_field.clear()
+    for char in lastname:
+        lastname_field.send_keys(char)
+        time.sleep(0.1)
+    print(f"✅ Apellido ingresado: {{lastname}}")
+    time.sleep(1)
+except Exception as e:
+    print(f"⚠️ Error en apellido: {{e}}")
+    save_screenshot()
 
-════════════════════════════════════════════════════════════════════════════════
-⚡ GENERAR CÓDIGO AHORA (sin texto adicional antes ni después)
-════════════════════════════════════════════════════════════════════════════════
+# PASO 4: Campo Email
+print("\n📍 PASO 4: Ingresando email")
+try:
+    email_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='email' or @name='email' or @id='email']"))
+    )
+    driver.execute_script("arguments[0].style.border='3px solid green'; arguments[0].scrollIntoView({{block: 'center'}});", email_field)
+    time.sleep(1)
+    email_field.clear()
+    for char in email:
+        email_field.send_keys(char)
+        time.sleep(0.1)
+    print(f"✅ Email ingresado: {{email}}")
+    save_screenshot()
+    time.sleep(1)
+except Exception as e:
+    print(f"❌ Error crítico en email: {{e}}")
+    save_screenshot()
+
+# PASO 5: Campo Contraseña
+print("\n📍 PASO 5: Ingresando contraseña")
+try:
+    password_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='password']"))
+    )
+    driver.execute_script("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView({{block: 'center'}});", password_field)
+    time.sleep(1)
+    password_field.clear()
+    for i, char in enumerate(password):
+        password_field.send_keys(char)
+        time.sleep(0.1)
+        print(f"🔒 {{'*' * (i+1)}}")
+    print("✅ Contraseña ingresada")
+    time.sleep(1)
+except Exception as e:
+    print(f"❌ Error en contraseña: {{e}}")
+    save_screenshot()
+
+# PASO 6: Seleccionar Género
+print("\n📍 PASO 6: Seleccionando género")
+try:
+    gender_select = driver.find_element(By.XPATH, "//select[contains(@name, 'gender') or contains(@id, 'gender')]")
+    driver.execute_script("arguments[0].style.border='3px solid orange'; arguments[0].scrollIntoView({{block: 'center'}});", gender_select)
+    time.sleep(1)
+    gender_select.click()
+    time.sleep(0.5)
+    gender_option = driver.find_element(By.XPATH, f"//option[contains(text(), '{{gender}}')]")
+    gender_option.click()
+    print(f"✅ Género seleccionado: {{gender}}")
+    time.sleep(1)
+except Exception as e:
+    print(f"⚠️ Género no requerido: {{str(e)[:50]}}")
+
+# PASO 7: Fecha de Nacimiento
+print("\n📍 PASO 7: Ingresando fecha de nacimiento")
+try:
+    day_field = driver.find_element(By.XPATH, "//input[contains(@placeholder, 'DD') or @name='day']")
+    driver.execute_script("arguments[0].scrollIntoView({{block: 'center'}});", day_field)
+    day_field.send_keys(birthdate_day)
+    
+    month_field = driver.find_element(By.XPATH, "//input[contains(@placeholder, 'MM') or @name='month']")
+    month_field.send_keys(birthdate_month)
+    
+    year_field = driver.find_element(By.XPATH, "//input[contains(@placeholder, 'AAAA') or @name='year']")
+    year_field.send_keys(birthdate_year)
+    
+    print(f"✅ Fecha: {{birthdate_day}}/{{birthdate_month}}/{{birthdate_year}}")
+    save_screenshot()
+    time.sleep(1)
+except Exception as e:
+    print(f"⚠️ Fecha no requerida: {{str(e)[:50]}}")
+
+# PASO 8: Términos y Condiciones
+print("\n📍 PASO 8: Aceptando términos")
+try:
+    terms_checkbox = driver.find_element(By.XPATH, "//input[@type='checkbox']")
+    if not terms_checkbox.is_selected():
+        driver.execute_script("arguments[0].scrollIntoView({{block: 'center'}});", terms_checkbox)
+        time.sleep(0.5)
+        terms_checkbox.click()
+        print("✅ Términos aceptados")
+        time.sleep(1)
+except Exception as e:
+    print(f"⚠️ Checkbox opcional")
+
+# PASO 9: Enviar Formulario
+print("\n📍 PASO 9: Enviando formulario")
+try:
+    submit_btn = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[@type='submit' or contains(text(), 'Confirmar') or contains(text(), 'Registr')]"))
+    )
+    driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{block: 'center'}});", submit_btn)
+    time.sleep(2)
+    save_screenshot()
+    submit_btn.click()
+    print("✅ Formulario enviado")
+    time.sleep(5)
+except Exception as e:
+    print(f"❌ Error al enviar: {{e}}")
+    save_screenshot()
+
+# PASO 10: Validación Final
+print("\n📍 PASO 10: Validando registro")
+time.sleep(3)
+current_url = driver.current_url
+print(f"🔗 URL actual: {{current_url}}")
+
+success_messages = [
+    "//*[contains(text(), 'bienvenido')]",
+    "//*[contains(text(), 'éxito')]",
+    "//*[contains(text(), 'registrado')]",
+    "//div[contains(@class, 'success')]"
+]
+
+registration_successful = False
+for selector in success_messages:
+    try:
+        success_elem = driver.find_element(By.XPATH, selector)
+        if success_elem.is_displayed():
+            driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{block: 'center'}});", success_elem)
+            print(f"✅ Mensaje: {{success_elem.text}}")
+            registration_successful = True
+            break
+    except:
+        continue
+
+if registration_successful or "dashboard" in current_url.lower():
+    print("\n" + "=" * 80)
+    print("✅ REGISTRO EXITOSO")
+    print("=" * 80)
+    driver.execute_script("""
+        var div = document.createElement('div');
+        div.innerHTML = '✅ REGISTRO EXITOSO';
+        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:32px;z-index:10000;border-radius:20px;';
+        document.body.appendChild(div);
+    """)
+    save_screenshot()
+    time.sleep(3)
+else:
+    print("\n❌ REGISTRO FALLIDO")
+    save_screenshot()
+
+print("\n🏁 FIN DEL TEST")
+print("=" * 80)
