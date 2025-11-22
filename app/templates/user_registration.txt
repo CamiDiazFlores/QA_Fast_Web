@@ -1,45 +1,11 @@
-[2:58 a. m., 22/11/2025] Velasquez: SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
+SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
 
 PROHIBIDO:
 ❌ "Entendido"
 ❌ Análisis del test
 ❌ Reportes
 ❌ Explicaciones
-❌ Markdown python
-
-OBLIGATORIO:
-✅ Primera línea debe ser: # Configuración
-✅ Solo código Python puro
-✅ Sin texto adicional antes o después del código
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-TEST DE REGISTRO DE USUARIO
-URL: {url}
-Nombre: {fullname}
-Apellido: {lastname}
-Email: {email}
-Contraseña: {password}
-Género: {gender}
-Fecha: {birthdate_day}/{birthdate_month}/{birthdate_year}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-GENERA AHORA EL CÓDIGO (sin texto adicional):
-
-# Configuración
-url = "{url}"
-fullname = "{fullname}"
-lastname = "{lastname}"
-email = "{e…
-[2:58 a. m., 22/11/2025] Velasquez: SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
-
-PROHIBIDO:
-❌ "Entendido"
-❌ Análisis del test
-❌ Reportes
-❌ Explicaciones
-❌ Markdown python
+❌ Markdown ```python```
 
 OBLIGATORIO:
 ✅ Primera línea debe ser: # Configuración
@@ -77,108 +43,108 @@ print("🚀 INICIO: REGISTRO DE USUARIO")
 print("=" * 80)
 
 # PASO 1: Navegación
-print("\n📍 PASO 1: Navegando a {{url}}")
+print("\\n📍 PASO 1: Navegando a {{url}}")
 driver.get(url)
 time.sleep(3)
 driver.execute_script("document.body.style.border='5px solid purple';")
-print(f"✅ Página cargada: {{driver.title}}")
+print(f"✅ Página cargada: {{{{driver.title}}}}")
 save_screenshot()
 time.sleep(2)
 
 # PASO 2: Campo Nombre
-print("\n📍 PASO 2: Ingresando nombre")
+print("\\n📍 PASO 2: Ingresando nombre")
 try:
     name_field = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//input[@name='name' or @id='name' or contains(@placeholder, 'ombre')]"))
     )
-    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{block: 'center'}});", name_field)
+    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", name_field)
     time.sleep(1)
     name_field.clear()
     for char in fullname:
         name_field.send_keys(char)
         time.sleep(0.1)
-    print(f"✅ Nombre ingresado: {{fullname}}")
+    print(f"✅ Nombre ingresado: {{{{fullname}}}}")
     time.sleep(1)
 except Exception as e:
-    print(f"⚠️ Error en nombre: {{e}}")
+    print(f"⚠️ Error en nombre: {{{{e}}}}")
     save_screenshot()
 
 # PASO 3: Campo Apellido
-print("\n📍 PASO 3: Ingresando apellido")
+print("\\n📍 PASO 3: Ingresando apellido")
 try:
     lastname_field = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//input[@name='lastname' or @id='lastname' or contains(@placeholder, 'pellido')]"))
     )
-    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{block: 'center'}});", lastname_field)
+    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", lastname_field)
     time.sleep(1)
     lastname_field.clear()
     for char in lastname:
         lastname_field.send_keys(char)
         time.sleep(0.1)
-    print(f"✅ Apellido ingresado: {{lastname}}")
+    print(f"✅ Apellido ingresado: {{{{lastname}}}}")
     time.sleep(1)
 except Exception as e:
-    print(f"⚠️ Error en apellido: {{e}}")
+    print(f"⚠️ Error en apellido: {{{{e}}}}")
     save_screenshot()
 
 # PASO 4: Campo Email
-print("\n📍 PASO 4: Ingresando email")
+print("\\n📍 PASO 4: Ingresando email")
 try:
     email_field = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//input[@type='email' or @name='email' or @id='email']"))
     )
-    driver.execute_script("arguments[0].style.border='3px solid green'; arguments[0].scrollIntoView({{block: 'center'}});", email_field)
+    driver.execute_script("arguments[0].style.border='3px solid green'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", email_field)
     time.sleep(1)
     email_field.clear()
     for char in email:
         email_field.send_keys(char)
         time.sleep(0.1)
-    print(f"✅ Email ingresado: {{email}}")
+    print(f"✅ Email ingresado: {{{{email}}}}")
     save_screenshot()
     time.sleep(1)
 except Exception as e:
-    print(f"❌ Error crítico en email: {{e}}")
+    print(f"❌ Error crítico en email: {{{{e}}}}")
     save_screenshot()
 
 # PASO 5: Campo Contraseña
-print("\n📍 PASO 5: Ingresando contraseña")
+print("\\n📍 PASO 5: Ingresando contraseña")
 try:
     password_field = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//input[@type='password']"))
     )
-    driver.execute_script("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView({{block: 'center'}});", password_field)
+    driver.execute_script("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", password_field)
     time.sleep(1)
     password_field.clear()
     for i, char in enumerate(password):
         password_field.send_keys(char)
         time.sleep(0.1)
-        print(f"🔒 {{'*' * (i+1)}}")
+        print(f"🔒 {{{{'*' * (i+1)}}}}")
     print("✅ Contraseña ingresada")
     time.sleep(1)
 except Exception as e:
-    print(f"❌ Error en contraseña: {{e}}")
+    print(f"❌ Error en contraseña: {{{{e}}}}")
     save_screenshot()
 
 # PASO 6: Seleccionar Género
-print("\n📍 PASO 6: Seleccionando género")
+print("\\n📍 PASO 6: Seleccionando género")
 try:
     gender_select = driver.find_element(By.XPATH, "//select[contains(@name, 'gender') or contains(@id, 'gender')]")
-    driver.execute_script("arguments[0].style.border='3px solid orange'; arguments[0].scrollIntoView({{block: 'center'}});", gender_select)
+    driver.execute_script("arguments[0].style.border='3px solid orange'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", gender_select)
     time.sleep(1)
     gender_select.click()
     time.sleep(0.5)
-    gender_option = driver.find_element(By.XPATH, f"//option[contains(text(), '{{gender}}')]")
+    gender_option = driver.find_element(By.XPATH, f"//option[contains(text(), '{{{{gender}}}}')]")
     gender_option.click()
-    print(f"✅ Género seleccionado: {{gender}}")
+    print(f"✅ Género seleccionado: {{{{gender}}}}")
     time.sleep(1)
 except Exception as e:
-    print(f"⚠️ Género no requerido: {{str(e)[:50]}}")
+    print(f"⚠️ Género no requerido: {{{{str(e)[:50]}}}}")
 
 # PASO 7: Fecha de Nacimiento
-print("\n📍 PASO 7: Ingresando fecha de nacimiento")
+print("\\n📍 PASO 7: Ingresando fecha de nacimiento")
 try:
     day_field = driver.find_element(By.XPATH, "//input[contains(@placeholder, 'DD') or @name='day']")
-    driver.execute_script("arguments[0].scrollIntoView({{block: 'center'}});", day_field)
+    driver.execute_script("arguments[0].scrollIntoView({{{{block: 'center'}}}});", day_field)
     day_field.send_keys(birthdate_day)
     
     month_field = driver.find_element(By.XPATH, "//input[contains(@placeholder, 'MM') or @name='month']")
@@ -187,18 +153,18 @@ try:
     year_field = driver.find_element(By.XPATH, "//input[contains(@placeholder, 'AAAA') or @name='year']")
     year_field.send_keys(birthdate_year)
     
-    print(f"✅ Fecha: {{birthdate_day}}/{{birthdate_month}}/{{birthdate_year}}")
+    print(f"✅ Fecha: {{{{birthdate_day}}}}/{{{{birthdate_month}}}}/{{{{birthdate_year}}}}")
     save_screenshot()
     time.sleep(1)
 except Exception as e:
-    print(f"⚠️ Fecha no requerida: {{str(e)[:50]}}")
+    print(f"⚠️ Fecha no requerida: {{{{str(e)[:50]}}}}")
 
 # PASO 8: Términos y Condiciones
-print("\n📍 PASO 8: Aceptando términos")
+print("\\n📍 PASO 8: Aceptando términos")
 try:
     terms_checkbox = driver.find_element(By.XPATH, "//input[@type='checkbox']")
     if not terms_checkbox.is_selected():
-        driver.execute_script("arguments[0].scrollIntoView({{block: 'center'}});", terms_checkbox)
+        driver.execute_script("arguments[0].scrollIntoView({{{{block: 'center'}}}});", terms_checkbox)
         time.sleep(0.5)
         terms_checkbox.click()
         print("✅ Términos aceptados")
@@ -207,26 +173,26 @@ except Exception as e:
     print(f"⚠️ Checkbox opcional")
 
 # PASO 9: Enviar Formulario
-print("\n📍 PASO 9: Enviando formulario")
+print("\\n📍 PASO 9: Enviando formulario")
 try:
     submit_btn = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.XPATH, "//button[@type='submit' or contains(text(), 'Confirmar') or contains(text(), 'Registr')]"))
     )
-    driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{block: 'center'}});", submit_btn)
+    driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", submit_btn)
     time.sleep(2)
     save_screenshot()
     submit_btn.click()
     print("✅ Formulario enviado")
     time.sleep(5)
 except Exception as e:
-    print(f"❌ Error al enviar: {{e}}")
+    print(f"❌ Error al enviar: {{{{e}}}}")
     save_screenshot()
 
 # PASO 10: Validación Final
-print("\n📍 PASO 10: Validando registro")
+print("\\n📍 PASO 10: Validando registro")
 time.sleep(3)
 current_url = driver.current_url
-print(f"🔗 URL actual: {{current_url}}")
+print(f"🔗 URL actual: {{{{current_url}}}}")
 
 success_messages = [
     "//*[contains(text(), 'bienvenido')]",
@@ -240,15 +206,15 @@ for selector in success_messages:
     try:
         success_elem = driver.find_element(By.XPATH, selector)
         if success_elem.is_displayed():
-            driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{block: 'center'}});", success_elem)
-            print(f"✅ Mensaje: {{success_elem.text}}")
+            driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", success_elem)
+            print(f"✅ Mensaje: {{{{success_elem.text}}}}")
             registration_successful = True
             break
     except:
         continue
 
 if registration_successful or "dashboard" in current_url.lower():
-    print("\n" + "=" * 80)
+    print("\\n" + "=" * 80)
     print("✅ REGISTRO EXITOSO")
     print("=" * 80)
     driver.execute_script("""
@@ -260,8 +226,8 @@ if registration_successful or "dashboard" in current_url.lower():
     save_screenshot()
     time.sleep(3)
 else:
-    print("\n❌ REGISTRO FALLIDO")
+    print("\\n❌ REGISTRO FALLIDO")
     save_screenshot()
 
-print("\n🏁 FIN DEL TEST")
+print("\\n🏁 FIN DEL TEST")
 print("=" * 80)

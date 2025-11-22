@@ -72,7 +72,7 @@ class PromptBuilder:
         
         # 5. Google OAuth
         elif any(keyword in text for keyword in ['google', 'oauth', 'auth', 'sso', 'continuar con google']):
-            return "google_oauth_login"
+            return "login_prompt"
         
         # 6. Login tradicional
         elif any(keyword in text for keyword in ['login', 'iniciar sesión', 'usuario', 'contraseña', 'password']):
