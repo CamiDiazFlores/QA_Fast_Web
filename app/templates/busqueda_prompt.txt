@@ -1,0 +1,105 @@
+Genera código Python ejecutable para validar búsqueda.
+
+# Datos del Test
+URL: {url}
+Término de Búsqueda: {search_term}
+Resultado Esperado: {expected_result}
+
+# CÓDIGO PARA BÚSQUEDA
+
+```python
+# Configuración
+url = "{url}"
+search_term = "{search_term}"
+
+print("=" * 80)
+print("🚀 INICIO: VALIDACIÓN DE BÚSQUEDA")
+print("=" * 80)
+
+# Navegación
+print("\n📍 PASO 1: Cargando página")
+driver.get(url)
+time.sleep(3)
+print(f"✅ Página cargada: {{driver.title}}")
+
+# Buscar campo de búsqueda
+print("\n📍 PASO 2: Localizando campo de búsqueda")
+try:
+    search_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='search'] | //input[@name='search'] | //input[@id='search'] | //input[@placeholder*='buscar'] | //input[@placeholder*='search']"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '5px solid blue';
+        arguments[0].style.backgroundColor = '#e3f2fd';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, search_field)
+    time.sleep(2)
+    
+    print("✅ Campo de búsqueda encontrado")
+    
+    # Escribir término
+    print(f"\n📍 PASO 3: Escribiendo término '{{search_term}}'")
+    search_field.clear()
+    for char in search_term:
+        search_field.send_keys(char)
+        time.sleep(0.15)
+    
+    print(f"✅ Término ingresado: {{search_term}}")
+    time.sleep(2)
+    
+    # Buscar botón de búsqueda
+    try:
+        search_button = driver.find_element(By.XPATH, "//button[@type='submit'] | //button[contains(., 'Buscar')] | //button[contains(., 'Search')]")
+        driver.execute_script("arguments[0].style.border='5px solid green';", search_button)
+        time.sleep(1)
+        search_button.click()
+        print("✅ Botón de búsqueda clickeado")
+    except:
+        search_field.send_keys(Keys.RETURN)
+        print("✅ Enter enviado")
+    
+    time.sleep(5)
+    
+except Exception as e:
+    print(f"❌ Error: {{e}}")
+    save_screenshot()
+
+# Validar resultados
+print("\n📍 PASO 4: Validando resultados de búsqueda")
+time.sleep(3)
+
+try:
+    results = driver.find_elements(By.XPATH, "//*[contains(@class, 'result')] | //*[contains(@class, 'search-result')] | //article | //div[contains(@class, 'item')]")
+    
+    results_count = len(results)
+    print(f"✅ Resultados encontrados: {{results_count}}")
+    
+    if results_count > 0:
+        # Resaltar primer resultado
+        driver.execute_script("""
+            arguments[0].style.border = '5px solid green';
+            arguments[0].style.backgroundColor = '#c8e6c9';
+            arguments[0].scrollIntoView({{block: 'center'}});
+        """, results[0])
+        
+        print("=" * 80)
+        print("✅ TEST EXITOSO: BÚSQUEDA FUNCIONANDO")
+        print(f"✅ {{results_count}} resultados encontrados")
+        print("=" * 80)
+        
+        save_screenshot()
+        time.sleep(3)
+    else:
+        print("❌ No se encontraron resultados")
+        save_screenshot()
+        
+except Exception as e:
+    print(f"⚠️ Error al validar resultados: {{e}}")
+    save_screenshot()
+
+print("\n🏁 FIN DEL TEST")
+```
+
+REGLAS: Resaltar campo búsqueda, escribir lentamente, validar resultados.
+Variables: driver, By, Keys, time, WebDriverWait, EC, save_screenshot()

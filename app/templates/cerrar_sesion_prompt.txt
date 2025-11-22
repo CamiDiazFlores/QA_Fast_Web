@@ -1,0 +1,105 @@
+Genera código Python ejecutable para cerrar sesión.
+
+# Datos del Test
+URL Dashboard: {url}
+Resultado Esperado: {expected_result}
+
+# CÓDIGO PARA LOGOUT
+
+```python
+# Configuración
+url = "{url}"
+
+print("=" * 80)
+print("🚀 INICIO: CERRAR SESIÓN")
+print("=" * 80)
+
+# Navegar al dashboard (usuario ya logueado)
+print("\n📍 PASO 1: Navegando al dashboard")
+driver.get(url)
+time.sleep(3)
+print(f"✅ Dashboard cargado: {{driver.title}}")
+
+# Buscar menú de usuario
+print("\n📍 PASO 2: Buscando menú de usuario")
+try:
+    user_menu = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(@class, 'user')] | //div[contains(@class, 'user-menu')] | //*[@id='user-menu'] | //button[contains(@aria-label, 'user')]"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '5px solid blue';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, user_menu)
+    time.sleep(2)
+    
+    user_menu.click()
+    print("✅ Menú de usuario abierto")
+    time.sleep(2)
+    
+except Exception as e:
+    print(f"⚠️ Menú de usuario no encontrado: {{e}}")
+
+# Buscar botón logout
+print("\n📍 PASO 3: Buscando opción 'Cerrar Sesión'")
+try:
+    logout_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Cerrar')] | //button[contains(text(), 'Cerrar')] | //a[contains(text(), 'Logout')] | //button[contains(text(), 'Logout')] | //a[contains(text(), 'Salir')] | //*[@id='logout']"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '5px solid red';
+        arguments[0].style.backgroundColor = '#ffebee';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, logout_button)
+    time.sleep(2)
+    
+    driver.execute_script("""
+        var div = document.createElement('div');
+        div.innerHTML = '👋 CERRANDO SESIÓN';
+        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:orange;color:white;padding:40px;font-size:28px;z-index:10000;border-radius:20px;';
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 2000);
+    """)
+    time.sleep(2)
+    
+    logout_button.click()
+    print("✅ Clic en 'Cerrar Sesión'")
+    time.sleep(5)
+    
+except Exception as e:
+    print(f"❌ Error al hacer logout: {{e}}")
+    save_screenshot()
+
+# Validar redirección a login
+print("\n📍 PASO 4: Validando cierre de sesión")
+time.sleep(3)
+
+current_url = driver.current_url
+print(f"🔗 URL actual: {{current_url}}")
+
+if "login" in current_url.lower() or "signin" in current_url.lower():
+    print("\n" + "=" * 80)
+    print("✅ TEST EXITOSO: SESIÓN CERRADA CORRECTAMENTE")
+    print("=" * 80)
+    
+    driver.execute_script("""
+        document.body.style.border = '10px solid green';
+        var div = document.createElement('div');
+        div.innerHTML = '✅ LOGOUT EXITOSO<br>SESIÓN CERRADA';
+        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:32px;z-index:10000;border-radius:20px;text-align:center;';
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 5000);
+    """)
+    
+    save_screenshot()
+    time.sleep(3)
+else:
+    print("\n❌ TEST FALLIDO: No se cerró la sesión")
+    save_screenshot()
+
+print("\n🏁 FIN DEL TEST")
+```
+
+REGLAS: Encontrar menú usuario, resaltar logout, validar redirección.
+Variables: driver, By, Keys, time, WebDriverWait, EC, save_screenshot()

@@ -1,0 +1,253 @@
+Genera código Python ejecutable para registro de nuevo usuario.
+
+# Datos del Test
+URL: {url}
+Nombre: {fullname}
+Email: {email}
+Usuario: {username}
+Contraseña: {password}
+Confirmar Contraseña: {confirm_password}
+Resultado Esperado: {expected_result}
+
+# CÓDIGO PARA REGISTRO COMPLETO
+
+```python
+# Configuración
+url = "{url}"
+fullname = "{fullname}"
+email = "{email}"
+username = "{username}"
+password = "{password}"
+confirm_password = "{confirm_password}"
+
+print("=" * 80)
+print("🚀 INICIO: REGISTRO DE NUEVO USUARIO")
+print("=" * 80)
+
+# Navegación
+print("\n📍 PASO 1: Navegando a la página de registro")
+driver.get(url)
+time.sleep(3)
+driver.execute_script("document.body.style.border='5px solid purple';")
+print(f"✅ Página cargada: {{driver.title}}")
+time.sleep(1)
+
+# Campo Nombre Completo
+print("\n📍 PASO 2: Ingresando nombre completo")
+try:
+    fullname_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@name='name'] | //input[@name='fullname'] | //input[@id='name'] | //input[@placeholder*='nombre']"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '3px solid blue';
+        arguments[0].style.backgroundColor = '#e3f2fd';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, fullname_field)
+    time.sleep(1)
+    
+    fullname_field.clear()
+    for char in fullname:
+        fullname_field.send_keys(char)
+        time.sleep(0.1)
+    
+    print(f"✅ Nombre ingresado: {{fullname}}")
+    time.sleep(2)
+except Exception as e:
+    print(f"⚠️ Campo nombre no encontrado o no requerido: {{e}}")
+
+# Campo Email
+print("\n📍 PASO 3: Ingresando email")
+try:
+    email_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='email'] | //input[@name='email'] | //input[@id='email']"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '3px solid green';
+        arguments[0].style.backgroundColor = '#e8f5e9';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, email_field)
+    time.sleep(1)
+    
+    email_field.clear()
+    for char in email:
+        email_field.send_keys(char)
+        time.sleep(0.1)
+    
+    print(f"✅ Email ingresado: {{email}}")
+    time.sleep(2)
+except Exception as e:
+    print(f"❌ Error al ingresar email: {{e}}")
+    save_screenshot()
+
+# Campo Usuario
+print("\n📍 PASO 4: Ingresando nombre de usuario")
+try:
+    username_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@name='username'] | //input[@id='username'] | //input[@placeholder*='usuario']"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '3px solid orange';
+        arguments[0].style.backgroundColor = '#fff3e0';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, username_field)
+    time.sleep(1)
+    
+    username_field.clear()
+    for char in username:
+        username_field.send_keys(char)
+        time.sleep(0.1)
+    
+    print(f"✅ Usuario ingresado: {{username}}")
+    time.sleep(2)
+except Exception as e:
+    print(f"⚠️ Campo usuario no encontrado o no requerido: {{e}}")
+
+# Campo Contraseña
+print("\n📍 PASO 5: Ingresando contraseña")
+try:
+    password_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='password' and (@name='password' or @id='password' or contains(@placeholder, 'contraseña'))]"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '3px solid red';
+        arguments[0].style.backgroundColor = '#ffebee';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, password_field)
+    time.sleep(1)
+    
+    for i, char in enumerate(password):
+        password_field.send_keys(char)
+        time.sleep(0.1)
+        print(f"🔒 {{'*' * (i+1)}}")
+    
+    print("✅ Contraseña ingresada")
+    time.sleep(2)
+except Exception as e:
+    print(f"❌ Error al ingresar contraseña: {{e}}")
+    save_screenshot()
+
+# Confirmar Contraseña
+print("\n📍 PASO 6: Confirmando contraseña")
+try:
+    confirm_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='password' and (contains(@name, 'confirm') or contains(@id, 'confirm') or contains(@placeholder, 'confirmar'))]"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '3px solid red';
+        arguments[0].style.backgroundColor = '#ffebee';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, confirm_field)
+    time.sleep(1)
+    
+    for i, char in enumerate(confirm_password):
+        confirm_field.send_keys(char)
+        time.sleep(0.1)
+    
+    print("✅ Contraseña confirmada")
+    time.sleep(2)
+except Exception as e:
+    print(f"⚠️ Campo confirmar contraseña no encontrado: {{e}}")
+
+# Aceptar términos si existe
+print("\n📍 PASO 7: Aceptando términos y condiciones")
+try:
+    terms_checkbox = driver.find_element(By.XPATH, "//input[@type='checkbox']")
+    if not terms_checkbox.is_selected():
+        driver.execute_script("arguments[0].scrollIntoView({{block: 'center'}});", terms_checkbox)
+        time.sleep(1)
+        terms_checkbox.click()
+        print("✅ Términos aceptados")
+        time.sleep(1)
+except:
+    print("⚠️ No se encontró checkbox de términos")
+
+# Botón Registrar
+print("\n📍 PASO 8: Enviando formulario de registro")
+try:
+    register_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[@type='submit'] | //button[contains(text(), 'Registrar')] | //button[contains(text(), 'Crear')] | //button[contains(text(), 'Sign up')]"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '5px solid green';
+        arguments[0].style.transform = 'scale(1.1)';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, register_button)
+    time.sleep(2)
+    
+    register_button.click()
+    print("✅ Formulario enviado")
+    time.sleep(5)
+    
+except Exception as e:
+    print(f"❌ Error al enviar formulario: {{e}}")
+    save_screenshot()
+
+# Validación
+print("\n📍 PASO 9: Validando registro exitoso")
+time.sleep(5)
+
+current_url = driver.current_url
+page_title = driver.title
+
+print(f"🔗 URL actual: {{current_url}}")
+print(f"📄 Título: {{page_title}}")
+
+# Buscar mensaje de éxito
+success_found = False
+success_selectors = [
+    "//*[contains(text(), 'bienvenido')]",
+    "//*[contains(text(), 'welcome')]",
+    "//*[contains(text(), 'éxito')]",
+    "//*[contains(text(), 'success')]",
+    "//*[contains(text(), 'registrado')]",
+    "//*[contains(text(), 'registered')]",
+    "//div[contains(@class, 'success')]"
+]
+
+for selector in success_selectors:
+    try:
+        success_element = driver.find_element(By.XPATH, selector)
+        if success_element.is_displayed():
+            success_text = success_element.text
+            driver.execute_script("""
+                arguments[0].style.border = '5px solid green';
+                arguments[0].style.backgroundColor = '#c8e6c9';
+                arguments[0].scrollIntoView({{block: 'center'}});
+            """, success_element)
+            print(f"✅ Mensaje de éxito: {{success_text}}")
+            success_found = True
+            break
+    except:
+        continue
+
+if success_found or "dashboard" in current_url.lower() or "home" in current_url.lower():
+    print("\n" + "=" * 80)
+    print("✅ TEST EXITOSO: USUARIO REGISTRADO CORRECTAMENTE")
+    print("=" * 80)
+    
+    driver.execute_script("""
+        document.body.style.border = '10px solid green';
+        var div = document.createElement('div');
+        div.innerHTML = '✅ REGISTRO EXITOSO<br>CUENTA CREADA';
+        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:32px;z-index:10000;border-radius:20px;text-align:center;';
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 5000);
+    """)
+    
+    save_screenshot()
+    time.sleep(3)
+else:
+    print("\n❌ TEST FALLIDO: Registro no completado")
+    save_screenshot()
+
+print("\n🏁 FIN DEL TEST")
+```
+
+REGLAS: Llenar todos los campos, resaltar cada input, validar éxito.
+Variables: driver, By, Keys, time, WebDriverWait, EC, save_screenshot()

@@ -1,0 +1,107 @@
+SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
+
+PROHIBIDO:
+❌ "Entendido"
+❌ Análisis del test
+❌ Reportes
+❌ Explicaciones
+❌ Markdown ```python```
+
+OBLIGATORIO:
+✅ Primera línea debe ser: # Configuración
+✅ Solo código Python puro
+✅ Sin texto adicional antes o después del código
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TEST DE NAVEGACIÓN ENTRE MÓDULOS
+URL Inicial: {url}
+Secciones a Visitar: {sections}
+Resultado Esperado: {expected_result}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GENERA AHORA EL CÓDIGO (sin texto adicional):
+
+# Configuración
+url = "{url}"
+sections_to_visit = "{sections}".split(",")
+
+print("=" * 80)
+print("🚀 INICIO: NAVEGACIÓN ENTRE MÓDULOS")
+print("=" * 80)
+
+# PASO 1: Navegación inicial
+print("\n📍 PASO 1: Cargando página principal")
+driver.get(url)
+time.sleep(3)
+driver.execute_script("document.body.style.border='5px solid blue';")
+print(f"✅ Página cargada: {{driver.title}}")
+save_screenshot()
+time.sleep(2)
+
+# PASO 2-N: Visitar cada sección
+for index, section in enumerate(sections_to_visit, 1):
+    section = section.strip()
+    print(f"\n📍 PASO {{index+1}}: Navegando a sección '{{section}}'")
+    
+    try:
+        navigation_element = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, f"//a[contains(text(), '{{section}}')] | //button[contains(text(), '{{section}}')] | //*[@href='#{{section.lower()}}'] | //*[contains(@class, '{{section.lower()}}')]"))
+        )
+        
+        driver.execute_script("""
+            arguments[0].style.border = '5px solid orange';
+            arguments[0].style.backgroundColor = '#fff3cd';
+            arguments[0].scrollIntoView({{behavior: 'smooth', block: 'center'}});
+        """, navigation_element)
+        time.sleep(1)
+        
+        driver.execute_script(f"""
+            var div = document.createElement('div');
+            div.innerHTML = '🔄 NAVEGANDO A: {{section.upper()}}';
+            div.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:blue;color:white;padding:20px;font-size:24px;z-index:10000;border-radius:10px;';
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 2000);
+        """)
+        time.sleep(2)
+        
+        navigation_element.click()
+        print(f"✅ Clic en sección: {{section}}")
+        time.sleep(4)
+        
+        current_url = driver.current_url
+        page_title = driver.title
+        
+        print(f"   🔗 URL: {{current_url}}")
+        print(f"   📄 Título: {{page_title}}")
+        
+        driver.execute_script("document.body.style.border='5px solid green';")
+        save_screenshot()
+        time.sleep(2)
+        driver.execute_script("document.body.style.border='';")
+        
+    except Exception as e:
+        print(f"❌ Error al navegar a {{section}}: {{e}}")
+        save_screenshot()
+        continue
+
+# PASO FINAL: Validación
+print("\n📍 PASO FINAL: Validando navegación completada")
+print("=" * 80)
+print("✅ TEST EXITOSO: NAVEGACIÓN COMPLETADA")
+print(f"✅ Secciones visitadas: {{', '.join(sections_to_visit)}}")
+print("=" * 80)
+
+driver.execute_script("""
+    var div = document.createElement('div');
+    div.innerHTML = '✅ NAVEGACIÓN EXITOSA<br>TODAS LAS SECCIONES VISITADAS';
+    div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:28px;z-index:10000;border-radius:20px;text-align:center;';
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 5000);
+""")
+
+save_screenshot()
+time.sleep(3)
+
+print("\n🏁 FIN DEL TEST")

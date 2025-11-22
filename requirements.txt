@@ -1,0 +1,36 @@
+# --- Framework principal ---
+fastapi==0.115.2
+uvicorn==0.31.1
+
+# --- ORM y Base de Datos ---
+SQLAlchemy==2.0.35
+pymysql==1.1.1
+cryptography==41.0.7  # Requerido para autenticación MySQL sha256_password
+
+# --- Manejo de entorno ---
+python-dotenv==1.0.1
+
+# --- Validación y esquemas ---
+pydantic==2.9.2
+pydantic-settings==2.5.2
+
+# --- Manipulación de datos ---
+pandas==2.2.3
+openpyxl==3.1.5  # Para leer archivos Excel (.xlsx)
+
+# --- HTTP Requests (para IA y agente externo) ---
+httpx==0.27.2
+
+# --- Logging y utilidades ---
+loguru==0.7.2
+
+# --- Selenium (para ejecución del agente) ---
+selenium==4.24.0
+
+# --- Otros útiles ---
+requests==2.32.3
+python-multipart==0.0.9  # Para subir archivos Excel desde el frontend
+
+# --- Testing (opcional) ---
+pytest==8.3.3
+pytest-asyncio==0.23.7

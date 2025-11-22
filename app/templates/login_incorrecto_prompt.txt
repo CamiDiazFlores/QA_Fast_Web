@@ -1,0 +1,184 @@
+Genera código Python ejecutable para validar login con credenciales incorrectas.
+
+# Datos del Test
+URL: {url}
+Usuario Incorrecto: {username}
+Contraseña Incorrecta: {password}
+Mensaje de Error Esperado: {expected_error}
+Resultado Esperado: {expected_result}
+
+# CÓDIGO CON VALIDACIÓN DE ERRORES
+
+```python
+# Configuración
+url = "{url}"
+username = "{username}"
+password = "{password}"
+
+print("=" * 80)
+print("🚀 INICIO: VALIDACIÓN DE CREDENCIALES INCORRECTAS")
+print("=" * 80)
+
+# Navegación
+print("\n📍 PASO 1: Navegando a la página de login")
+driver.get(url)
+time.sleep(3)
+driver.execute_script("document.body.style.border='5px solid blue';")
+print(f"✅ Página cargada: {{driver.title}}")
+time.sleep(1)
+
+# Buscar campo usuario
+print("\n📍 PASO 2: Ingresando usuario INCORRECTO")
+try:
+    username_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='text'] | //input[@name='username'] | //input[@id='username'] | //input[@name='email']"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '3px solid orange';
+        arguments[0].style.backgroundColor = '#fff3cd';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, username_field)
+    time.sleep(1)
+    
+    username_field.clear()
+    for char in username:
+        username_field.send_keys(char)
+        time.sleep(0.1)
+    
+    print(f"✅ Usuario incorrecto ingresado: {{username}}")
+    time.sleep(2)
+    
+except Exception as e:
+    print(f"❌ Error al ingresar usuario: {{e}}")
+    save_screenshot()
+
+# Buscar campo contraseña
+print("\n📍 PASO 3: Ingresando contraseña INCORRECTA")
+try:
+    password_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='password']"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '3px solid red';
+        arguments[0].style.backgroundColor = '#f8d7da';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, password_field)
+    time.sleep(1)
+    
+    for i, char in enumerate(password):
+        password_field.send_keys(char)
+        time.sleep(0.1)
+        print(f"🔒 {{'*' * (i+1)}}")
+    
+    print("✅ Contraseña incorrecta ingresada")
+    time.sleep(2)
+    
+except Exception as e:
+    print(f"❌ Error al ingresar contraseña: {{e}}")
+    save_screenshot()
+
+# Hacer clic en botón login
+print("\n📍 PASO 4: Intentando login con credenciales incorrectas")
+try:
+    login_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[@type='submit'] | //button[contains(text(), 'Login')] | //button[contains(text(), 'Iniciar')] | //input[@type='submit']"))
+    )
+    
+    driver.execute_script("""
+        arguments[0].style.border = '5px solid green';
+        arguments[0].scrollIntoView({{block: 'center'}});
+    """, login_button)
+    time.sleep(1)
+    
+    login_button.click()
+    print("✅ Clic en botón de login")
+    time.sleep(5)
+    
+except Exception as e:
+    print(f"❌ Error al hacer clic: {{e}}")
+    save_screenshot()
+
+# Validar mensaje de error
+print("\n📍 PASO 5: Verificando mensaje de error")
+time.sleep(3)
+
+error_messages_found = []
+error_selectors = [
+    "//div[contains(@class, 'error')]",
+    "//div[contains(@class, 'alert')]",
+    "//span[contains(@class, 'error')]",
+    "//*[contains(text(), 'incorrecta')]",
+    "//*[contains(text(), 'incorrect')]",
+    "//*[contains(text(), 'inválido')]",
+    "//*[contains(text(), 'invalid')]",
+    "//div[@role='alert']"
+]
+
+for selector in error_selectors:
+    try:
+        error_element = driver.find_element(By.XPATH, selector)
+        if error_element.is_displayed():
+            error_text = error_element.text
+            error_messages_found.append(error_text)
+            
+            # Resaltar mensaje de error
+            driver.execute_script("""
+                arguments[0].style.border = '5px solid red';
+                arguments[0].style.backgroundColor = 'yellow';
+                arguments[0].scrollIntoView({{block: 'center'}});
+            """, error_element)
+            
+            print(f"✅ Mensaje de error encontrado: {{error_text}}")
+            break
+    except:
+        continue
+
+# Verificar que NO se hizo login
+current_url = driver.current_url
+print(f"\n🔗 URL actual: {{current_url}}")
+
+is_still_on_login = "login" in current_url.lower()
+has_error_message = len(error_messages_found) > 0
+
+if is_still_on_login and has_error_message:
+    print("\n" + "=" * 80)
+    print("✅ TEST EXITOSO: LOGIN BLOQUEADO CORRECTAMENTE")
+    print(f"✅ Mensaje de error mostrado: {{error_messages_found[0]}}")
+    print("=" * 80)
+    
+    driver.execute_script("""
+        var div = document.createElement('div');
+        div.innerHTML = '✅ TEST EXITOSO<br>CREDENCIALES INCORRECTAS<br>BLOQUEADAS CORRECTAMENTE';
+        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:28px;z-index:10000;border-radius:20px;text-align:center;';
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 5000);
+    """)
+    
+    save_screenshot()
+    time.sleep(3)
+elif not is_still_on_login:
+    print("\n" + "=" * 80)
+    print("❌ TEST FALLIDO: SE PERMITIÓ EL LOGIN CON CREDENCIALES INCORRECTAS")
+    print("=" * 80)
+    
+    driver.execute_script("""
+        var div = document.createElement('div');
+        div.innerHTML = '❌ FALLO DE SEGURIDAD<br>LOGIN INCORRECTO PERMITIDO';
+        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:red;color:white;padding:60px;font-size:28px;z-index:10000;border-radius:20px;text-align:center;';
+        document.body.appendChild(div);
+        setTimeout(() => div.remove(), 5000);
+    """)
+    
+    save_screenshot()
+    time.sleep(3)
+else:
+    print("\n❌ TEST FALLIDO: No se mostró mensaje de error")
+    save_screenshot()
+
+print("\n🏁 FIN DEL TEST")
+```
+
+REGLAS: Resaltar errores, validar mensajes, verificar bloqueo.
+Variables: driver, By, Keys, time, WebDriverWait, EC, save_screenshot()
