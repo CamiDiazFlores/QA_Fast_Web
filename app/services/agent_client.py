@@ -8,7 +8,7 @@ class AgentClient:
     Cliente para comunicarse con el Agente Executor de Selenium.
     """
     def __init__(self):
-        self.executor_url = os.getenv("AGENT_EXECUTOR_URL", "http://localhost:8001/execute")
+        self.executor_url = os.getenv("AGENT_EXECUTOR_URL", "http://localhost:8000/execute")
     
     def extract_python_code(self, text: str) -> str:
         """
