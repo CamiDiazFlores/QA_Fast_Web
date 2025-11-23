@@ -1,7 +1,3 @@
-import pymysql
-# Instalar pymysql como MySQLdb ANTES de importar SQLAlchemy
-pymysql.install_as_MySQLdb()
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pydantic_settings import BaseSettings
@@ -20,17 +16,18 @@ class Settings(BaseSettings):
     AGENT_EXECUTOR_URL: str = os.getenv("AGENT_EXECUTOR_URL", "http://localhost:8000/execute")
     ALLOWED_ORIGINS: Union[str, List[str]] = "http://localhost:4200,http://127.0.0.1:4200"
     BACKEND_PORT: int = 8081
-    
+
     @property
     def origins_list(self) -> List[str]:
         """Retorna ALLOWED_ORIGINS como lista"""
         if isinstance(self.ALLOWED_ORIGINS, str):
             return [origin.strip() for origin in self.ALLOWED_ORIGINS.split(',')]
         return self.ALLOWED_ORIGINS
-    
+
     class Config:
         env_file = ".env"
         case_sensitive = True
+        # Evitar validación extra de variables de entorno
         extra = "allow"
 
 settings = Settings()
@@ -38,9 +35,9 @@ settings = Settings()
 # Configuración de SQLAlchemy
 engine = create_engine(
     settings.DATABASE_URL,
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    echo=False
+    pool_pre_ping=True,  # Verifica la conexión antes de usar
+    pool_recycle=3600,   # Recicla conexiones cada hora
+    echo=False           # No mostrar todas las consultas SQL
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

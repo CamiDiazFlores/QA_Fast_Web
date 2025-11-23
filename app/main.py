@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings, Base, engine
 from app.utils.logger import setup_logger
 
-# ⚠️ IMPORTANTE: Importar TODOS los modelos ANTES de crear las tablas
+# Importar TODOS los modelos ANTES de crear las tablas
 from app.models.case_model import TestCase
 from app.models.result_model import TestResult
 from app.models.prompt_model import Prompt
@@ -13,24 +13,20 @@ from app.routes import cases, execute, dashboard
 
 # Crear tablas si no existen
 try:
-    print("🔌 Conectando a base de datos...")
+    print("[DB] Conectando a base de datos...")
     Base.metadata.create_all(bind=engine)
-    print("✅ Tablas creadas exitosamente")
+    print("[DB] Tablas creadas exitosamente")
 except Exception as e:
-    print(f"❌ Error al crear tablas: {e}")
+    print(f"[ERROR] Error al crear tablas: {e}")
 
-# ===============================
-# CONFIGURAR APLICACIÓN FASTAPI
-# ===============================
+# Configurar aplicación FastAPI
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.PROJECT_VERSION,
     description="Backend de automatización QA con Selenium + IA (Manus)"
 )
 
-# ===============================
-# CONFIGURAR CORS
-# ===============================
+# Configurar CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.origins_list,
@@ -39,23 +35,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ===============================
-# CONFIGURAR LOG
-# ===============================
+# Configurar logger
 logger = setup_logger("main")
-logger.info("Iniciando servidor QA Automation Backend...")
+logger.info("[INICIO] Servidor QA Automation Backend")
+logger.info(f"[EXECUTOR] URL: {settings.AGENT_EXECUTOR_URL}")
+logger.info(f"[GRID] Modo: {'ENABLED' if settings.USE_SELENIUM_GRID else 'DISABLED'}")
 
-# ===============================
-# REGISTRAR RUTAS
-# ===============================
+# Registrar rutas
 app.include_router(cases.router, prefix="/api/cases", tags=["Casos de prueba"])
 app.include_router(execute.router, prefix="/api/execute", tags=["Ejecución de pruebas"])
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
 
-# ===============================
-# ENDPOINT RAÍZ
-# ===============================
+# Endpoint raíz
 @app.get("/")
 def root():
-    logger.info("API raiz consultada")
-    return {"message": "QA Automation Backend activo", "version": settings.PROJECT_VERSION}
+    logger.info("[OK] API raiz consultada")
+    return {
+        "message": "QA Automation Backend activo",
+        "version": settings.PROJECT_VERSION,
+        "executor_service": settings.AGENT_EXECUTOR_URL,
+        "selenium_grid": settings.USE_SELENIUM_GRID
+    }

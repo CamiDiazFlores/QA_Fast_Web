@@ -205,7 +205,7 @@ registration_successful = False
 for selector in success_messages:
     try:
         success_elem = driver.find_element(By.XPATH, selector)
-        if success_elem.is_displayed():
+        if success_elem.is_displayed() and {{email}}:
             driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", success_elem)
             print(f"✅ Mensaje: {{{{success_elem.text}}}}")
             registration_successful = True
