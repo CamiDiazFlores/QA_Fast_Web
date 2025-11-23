@@ -26,9 +26,27 @@ RUN adduser \
     --gecos "" \
     --home "/nonexistent" \
     --shell "/sbin/nologin" \
-    --no-create-home \
+    --no-create-home \    # Install PostgreSQL client libraries and dependencies
+    RUN apt-get update && apt-get install -y \
+        libpq-dev gcc && \
+        apt-get clean
     --uid "${UID}" \
-    appuser
+    appuser    # Install PostgreSQL client libraries and dependencies
+    RUN apt-get update && apt-get install -y \
+        libpq-dev gcc && \
+        apt-get clean        # Install PostgreSQL client libraries and dependencies
+        RUN apt-get update && apt-get install -y \
+            libpq-dev gcc && \
+            apt-get clean            # Install PostgreSQL client libraries and dependencies
+            RUN apt-get update && apt-get install -y \
+                libpq-dev gcc && \
+                apt-get clean                # Install PostgreSQL client libraries and dependencies
+                RUN apt-get update && apt-get install -y \
+                    libpq-dev gcc && \
+                    apt-get clean                    # Install PostgreSQL client libraries and dependencies
+                    RUN apt-get update && apt-get install -y \
+                        libpq-dev gcc && \
+                        apt-get clean
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
