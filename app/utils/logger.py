@@ -2,9 +2,14 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 
-# Carpeta permitida por Render
-LOG_DIR = "/var/log/app"
-os.makedirs(LOG_DIR, exist_ok=True)
+# Usar carpeta segura y escribible en cualquier plataforma (Render, Railway, Docker)
+LOG_DIR = "/tmp/logs"
+
+# Crear directorio sin romper si no hay permisos (fallback a /tmp)
+try:
+    os.makedirs(LOG_DIR, exist_ok=True)
+except PermissionError:
+    LOG_DIR = "/tmp"
 
 def setup_logger(name: str) -> logging.Logger:
     """
