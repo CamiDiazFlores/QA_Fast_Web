@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     # URL de BD (Render usa sslmode=require siempre)
     DATABASE_URL: str = os.getenv(
         "DATABASE_URL",
-        "postgresql+psycopg://qa_db_aenc_user:RcxAQ6lXjQivUS5jQ0v9XiiUHdeNdh8B@dpg-d4hbjv6mcj7s73bttn50-a.oregon-postgres.render.com/qa_db_aenc?sslmode=require"
+        "postgresql+psycopg://qa_db_9h4a_user:msOj2b7BUJDUSK4XStozjU24IcoB36cB@dpg-d4ho5lbuibrs73docicg-a.oregon-postgres.render.com/qa_db_9h4a?sslmode=require"
     )
 
     MANUS_IA_API: str = os.getenv("MANUS_IA_API", "https://api.manusia.com/v1/generate")
