@@ -65,11 +65,17 @@ class PromptBuilder:
         elif any(keyword in text for keyword in ['facebook', 'continuar con facebook', 'sign in with facebook']):
             return "login_facebook_auth"
         
-        # 4. Login completo correcto (email + password)
-        elif any(keyword in text for keyword in ['login', 'iniciar sesión', 'sign in']) and \
-             (any(keyword in text for keyword in ['correcto', 'válido', 'exitoso', 'correct', 'valid', 'successful']) or \
-              (re.search(r'email[:\s]+\w+', text, re.IGNORECASE) and re.search(r'(contraseña|password)[:\s]+\w+', text, re.IGNORECASE))):
-            return "login_completo_correcto"
+        # 4. Login completo correcto (DEBE tener indicador explícito de éxito O email+password)
+        if any(keyword in text for keyword in ['login', 'iniciar sesión', 'sign in', 'autenticación', 'authentication']):
+            # Tiene indicador explícito de éxito
+            has_success_indicator = any(keyword in text for keyword in ['correcto', 'válido', 'exitoso', 'correct', 'valid', 'successful', 'exitosa', 'válida'])
+            
+            # O tiene email Y password explícitos
+            has_email = bool(re.search(r'(email|correo|e-mail)[:\s]+[\w.-]+@[\w.-]+\.\w+', text, re.IGNORECASE))
+            has_password = bool(re.search(r'(contraseña|password|clave)[:\s]+\w+', text, re.IGNORECASE))
+            
+            if has_success_indicator or (has_email and has_password):
+                return "login_completo_correcto"
         
         # 5. Registro de usuario
         elif any(keyword in text for keyword in ['registr', 'register', 'sign up', 'crear cuenta', 'nueva cuenta', 'crea tu cuenta']):
