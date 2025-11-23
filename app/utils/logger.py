@@ -2,7 +2,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 
-LOG_DIR = "logs"
+# Carpeta permitida por Render
+LOG_DIR = "/var/log/app"
 os.makedirs(LOG_DIR, exist_ok=True)
 
 def setup_logger(name: str) -> logging.Logger:
