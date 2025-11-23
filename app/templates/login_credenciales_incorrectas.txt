@@ -1,0 +1,115 @@
+SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
+
+PROHIBIDO:
+❌ "Entendido"
+❌ Análisis del test
+❌ Reportes
+❌ Explicaciones
+❌ Markdown ```python```
+
+OBLIGATORIO:
+✅ Primera línea debe ser: # Configuración
+✅ Solo código Python puro
+✅ Sin texto adicional antes o después del código
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TEST DE LOGIN CON CREDENCIALES INCORRECTAS
+URL: {url}
+Email: {email}
+Contraseña: {password}
+Resultado esperado: {expected_result}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GENERA AHORA EL CÓDIGO (sin texto adicional):
+
+# Configuración
+url = "{url}"
+email = "{email}"
+password = "{password}"
+expected_result = "{expected_result}"
+
+print("=" * 80)
+print("🚀 INICIO: LOGIN CON CREDENCIALES INCORRECTAS")
+print("=" * 80)
+
+# PASO 1: Navegación
+print("\n📍 PASO 1: Navegando a {{url}}")
+driver.get(url)
+time.sleep(3)
+driver.execute_script("document.body.style.border='5px solid purple';")
+print(f"✅ Página cargada: {{{{driver.title}}}}")
+save_screenshot()
+time.sleep(2)
+
+# PASO 2: Ingresar credenciales incorrectas
+print("\n📍 PASO 2: Ingresando credenciales incorrectas")
+try:
+    email_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='email' or @name='email' or @id='email']"))
+    )
+    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", email_field)
+    email_field.clear()
+    email_field.send_keys(email)
+    print(f"✅ Email ingresado: {{{{email}}}}")
+
+    password_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//input[@type='password']"))
+    )
+    driver.execute_script("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", password_field)
+    password_field.clear()
+    password_field.send_keys(password)
+    print("✅ Contraseña ingresada")
+    save_screenshot()
+except Exception as e:
+    print(f"❌ Error en credenciales: {{{{e}}}}")
+    save_screenshot()
+
+# PASO 3: Intentar login
+print("\n📍 PASO 3: Intentando login")
+try:
+    login_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[@type='submit' or contains(text(), 'Iniciar sesión') or contains(text(), 'Login')]")
+    )
+    driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", login_button)
+    time.sleep(1)
+    login_button.click()
+    print("✅ Botón de login clickeado")
+    save_screenshot()
+except Exception as e:
+    print(f"❌ Error al intentar login: {{{{e}}}}")
+    save_screenshot()
+
+# PASO 4: Validación de error
+print("\n📍 PASO 4: Validando mensaje de error")
+time.sleep(3)
+error_messages = [
+    "//*[contains(text(), 'credenciales incorrectas')]",
+    "//*[contains(text(), 'usuario no encontrado')]",
+    "//*[contains(text(), 'error')]",
+    "//div[contains(@class, 'error')]"
+]
+login_failed = False
+for selector in error_messages:
+    try:
+        error_elem = driver.find_element(By.XPATH, selector)
+        if error_elem.is_displayed():
+            driver.execute_script("arguments[0].style.border='5px solid red'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", error_elem)
+            print(f"✅ Mensaje de error mostrado: {{{{error_elem.text}}}}")
+            login_failed = True
+            break
+    except:
+        continue
+
+if login_failed:
+    print("\n" + "=" * 80)
+    print("✅ LOGIN FALLIDO VALIDADO")
+    print("=" * 80)
+    save_screenshot()
+else:
+    print("\n❌ ERROR: No se mostró mensaje de error esperado")
+    save_screenshot()
+
+print("\n🏁 FIN DEL TEST")
+print("=" * 80)
