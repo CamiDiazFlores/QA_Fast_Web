@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     PROJECT_VERSION: str = "1.0.0"
     DATABASE_URL: str = os.getenv("DATABASE_URL", "mysql+pymysql://root:password@localhost:3306/qa_db")
     MANUS_IA_API: str = os.getenv("MANUS_IA_API", "https://api.manusia.com/v1/generate")
-    AGENT_EXECUTOR_URL: str = os.getenv("AGENT_EXECUTOR_URL", "http://localhost:8000/execute")
+    AGENT_EXECUTOR_URL: str = os.getenv("AGENT_EXECUTOR_URL", "https://executer-qa-fast-web-server.onrender.com/execute")
     ALLOWED_ORIGINS: Union[str, List[str]] = "http://localhost:4200,http://127.0.0.1:4200"
     BACKEND_PORT: int = 8081
 
