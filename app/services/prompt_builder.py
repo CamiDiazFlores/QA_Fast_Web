@@ -1,4 +1,3 @@
-# app/services/prompt_builder.py
 from app.models.case_model import TestCase
 import os
 import re
@@ -54,47 +53,51 @@ class PromptBuilder:
         text = f"{test_case.name} {test_case.description} {test_case.steps}".lower()
         
         # 1. Login con credenciales incorrectas
-        if any(keyword in text for keyword in ['incorrecta', 'incorrect', 'inválida', 'invalid', 'fallido', 'failed']) and \
+        if any(keyword in text for keyword in ['incorrecta', 'incorrect', 'inválida', 'invalid', 'fallido', 'failed', 'incorrectas']) and \
            any(keyword in text for keyword in ['login', 'contraseña', 'password', 'credencial']):
-            return "login_invalid_credentials"
+            return "login_credenciales_incorrectas"
         
-        # 2. Registro de usuario
+        # 2. Login con Google OAuth
+        elif any(keyword in text for keyword in ['google', 'continuar con google', 'sign in with google']):
+            return "login_google_auth"
+        
+        # 3. Login con Facebook OAuth
+        elif any(keyword in text for keyword in ['facebook', 'continuar con facebook', 'sign in with facebook']):
+            return "login_facebook_auth"
+        
+        # 4. Login completo correcto (email + password)
+        elif any(keyword in text for keyword in ['login', 'iniciar sesión', 'sign in']) and \
+             (any(keyword in text for keyword in ['correcto', 'válido', 'exitoso', 'correct', 'valid', 'successful']) or \
+              (re.search(r'email[:\s]+\w+', text, re.IGNORECASE) and re.search(r'(contraseña|password)[:\s]+\w+', text, re.IGNORECASE))):
+            return "login_completo_correcto"
+        
+        # 5. Registro de usuario
         elif any(keyword in text for keyword in ['registr', 'register', 'sign up', 'crear cuenta', 'nueva cuenta', 'crea tu cuenta']):
             return "user_registration"
         
-        # 3. Búsqueda
+        # 6. Búsqueda
         elif any(keyword in text for keyword in ['buscar', 'search', 'búsqueda']):
             return "search_functionality"
         
-        # 4. Logout
+        # 7. Logout
         elif any(keyword in text for keyword in ['logout', 'cerrar sesión', 'salir', 'sign out']):
             return "cerrar_sesion_prompt"
         
-        # 5. Google OAuth
-        elif any(keyword in text for keyword in ['google', 'oauth', 'auth', 'sso', 'continuar con google']):
-            return "login_prompt"
-        
-        # 6. Login tradicional
-        elif any(keyword in text for keyword in ['login', 'iniciar sesión', 'usuario', 'contraseña', 'password']):
-            has_user = bool(re.search(r'usuario[:\s]+\w+', text, re.IGNORECASE))
-            has_pass = bool(re.search(r'(contraseña|password)[:\s]+\w+', text, re.IGNORECASE))
-            
-            if has_user and has_pass:
-                return "traditional_login"
-            else:
-                return "google_oauth_login"
-        
-        # 7. Navegación
+        # 8. Navegación
         elif any(keyword in text for keyword in ['navegación', 'navigate', 'visitar', 'ir a', 'módulo', 'sección']):
             return "navigation"
         
-        # 8. Formulario
+        # 9. Formulario
         elif any(keyword in text for keyword in ['formulario', 'form', 'llenar', 'submit']):
             return "form_submission"
         
+        # 10. OAuth genérico
+        elif any(keyword in text for keyword in ['oauth', 'auth', 'sso']):
+            return "login_prompt"
+        
         else:
             if test_case.url and 'login' in test_case.url.lower():
-                return "google_oauth_login"
+                return "login_completo_correcto"
             return "navigation"
     
     def _load_template(self, test_type: str) -> str:
@@ -144,14 +147,24 @@ class PromptBuilder:
         }
         
         # Datos específicos según el tipo de test
-        if test_type == "google_oauth_login":
+        if test_type == "login_google_auth":
+            data["email"] = input_data.get("email") or self._extract_email(test_case) or "andersonveelezca@gmail.com"
+        
+        elif test_type == "login_facebook_auth":
+            data["email"] = input_data.get("email") or self._extract_email(test_case) or "andersonveelezca@gmail.com"
+        
+        elif test_type == "login_completo_correcto":
+            data["email"] = input_data.get("email") or self._extract_email(test_case) or "testuser@example.com"
+            data["password"] = input_data.get("password") or self._extract_password(test_case) or "Test123!"
+        
+        elif test_type == "login_credenciales_incorrectas":
+            data["email"] = input_data.get("email") or "usuario_invalido@example.com"
+            data["password"] = input_data.get("password") or "password_incorrecta"
+            data["expected_result"] = "Credenciales incorrectas o error de autenticación"
+        
+        elif test_type == "google_oauth_login":
             data["email"] = input_data.get("email") or self._extract_email(test_case) or "andersonveelezca@gmail.com"
             data["oauth_provider"] = "Google"
-        
-        elif test_type == "login_invalid_credentials":
-            data["username"] = input_data.get("username") or "usuario_invalido"
-            data["password"] = input_data.get("password") or "password_incorrecta"
-            data["expected_error"] = "Credenciales incorrectas"
         
         elif test_type == "traditional_login":
             data["username"] = input_data.get("username") or self._extract_username(test_case) or "testuser"
@@ -213,6 +226,57 @@ class PromptBuilder:
         username_pattern = re.search(r'(?:usuario|username|user)[:\s]+([^\s,;]+)', text, re.IGNORECASE)
         if username_pattern:
             return username_pattern.group(1)
+        
+        return None
+    
+    def _extract_password(self, test_case: TestCase) -> str:
+        """Extrae password del test case"""
+        text = f"{test_case.steps} {test_case.description}"
+        
+        password_pattern = re.search(r'(?:contraseña|password|clave)[:\s]+([^\s,;]+)', text, re.IGNORECASE)
+        if password_pattern:
+            return password_pattern.group(1)
+        
+        return None
+    
+    def _extract_fullname(self, test_case: TestCase) -> str:
+        """Extrae nombre completo del test case"""
+        text = f"{test_case.steps} {test_case.description}"
+        
+        # Buscar "Nombre: xxx" o "Fullname: xxx"
+        name_pattern = re.search(r'(?:nombre|fullname|name)[:\s]+([A-Za-záéíóúÁÉÍÓÚñÑ\s]+?)(?:,|;|\.|$)', text, re.IGNORECASE)
+        if name_pattern:
+            return name_pattern.group(1).strip()
+        
+        return None
+    
+    def _extract_lastname(self, test_case: TestCase) -> str:
+        """Extrae apellido del test case"""
+        text = f"{test_case.steps} {test_case.description}"
+        
+        lastname_pattern = re.search(r'(?:apellido|lastname|surname)[:\s]+([A-Za-záéíóúÁÉÍÓÚñÑ\s]+?)(?:,|;|\.|$)', text, re.IGNORECASE)
+        if lastname_pattern:
+            return lastname_pattern.group(1).strip()
+        
+        return None
+    
+    def _extract_search_term(self, test_case: TestCase) -> str:
+        """Extrae término de búsqueda del test case"""
+        text = f"{test_case.steps} {test_case.description}"
+        
+        search_pattern = re.search(r'(?:buscar|search)[:\s]+([^,;.]+)', text, re.IGNORECASE)
+        if search_pattern:
+            return search_pattern.group(1).strip()
+        
+        return None
+    
+    def _extract_sections(self, test_case: TestCase) -> str:
+        """Extrae secciones a visitar del test case"""
+        text = f"{test_case.steps} {test_case.description}"
+        
+        sections_pattern = re.search(r'(?:secciones|módulos|sections)[:\s]+([^.]+)', text, re.IGNORECASE)
+        if sections_pattern:
+            return sections_pattern.group(1).strip()
         
         return None
     
