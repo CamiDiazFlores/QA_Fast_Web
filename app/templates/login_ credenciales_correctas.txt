@@ -1,20 +1,45 @@
-SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
+⚠️ EJECUCIÓN AUTOMÁTICA - NO HAGAS PREGUNTAS ⚠️
 
-PROHIBIDO:
-❌ "Entendido"
-❌ Análisis del test
-❌ Reportes
-❌ Explicaciones
-❌ Markdown ```python```
-
-OBLIGATORIO:
-✅ Primera línea debe ser: # Configuración
-✅ Solo código Python puro
-✅ Sin texto adicional antes o después del código
+Este es un sistema automatizado. Tu respuesta será ejecutada sin intervención humana.
+TODAS las variables ya están proporcionadas. NO solicites información adicional.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-EJEMPLO DE RESPUESTA CORRECTA (tu respuesta debe seguir este formato exacto):
+🚨 REGLAS ABSOLUTAS:
+
+❌ PROHIBIDO:
+   - Preguntar por credenciales (YA están proporcionadas abajo)
+   - Preguntar por selectores (usa los genéricos del código)
+   - Preguntar si el driver está inicializado (SÍ está inicializado)
+   - Escribir "Entendido", "Claro", "Aquí está"
+   - Pedir confirmación o información adicional
+   - Usar markdown ```python```
+   - Cualquier texto que no sea código Python
+
+✅ OBLIGATORIO:
+   - Primera línea: # Configuración
+   - Solo código Python ejecutable
+   - Usar EXACTAMENTE las variables proporcionadas abajo
+   - NO preguntes NADA, ejecuta directamente
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 INFORMACIÓN DEL TEST (COMPLETA - NO SOLICITES MÁS DATOS):
+
+URL: {url}
+EMAIL: {email}
+PASSWORD: {password}
+RESULTADO ESPERADO: {expected_result}
+
+Entorno ya configurado:
+✓ Variable 'driver' = RemoteWebDriver de Selenium Grid (YA inicializado)
+✓ Módulos importados: By, Keys, time, WebDriverWait, EC
+✓ Función disponible: save_screenshot() para capturas
+✓ Selectores: Usa XPath genéricos (ya incluidos en el código de ejemplo)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 CÓDIGO DE EJEMPLO (copia y adapta este formato exacto):
 
 # Configuración
 url = "{url}"
@@ -23,93 +48,169 @@ password = "{password}"
 expected_result = "{expected_result}"
 
 print("=" * 80)
-print("🚀 INICIO: LOGIN CON EMAIL Y CONTRASEÑA")
+print("🚀 TEST: LOGIN CON CREDENCIALES VÁLIDAS")
 print("=" * 80)
+print(f"URL: {{url}}")
+print(f"Email: {{email}}")
+print(f"Password: {{'*' * len(password)}}")
 
-print("\n📍 PASO 1: Navegando a la página")
+print("\n📍 PASO 1: Navegación")
 driver.get(url)
 time.sleep(3)
 driver.execute_script("document.body.style.border='5px solid purple';")
-print(f"✅ Página cargada: {{driver.title}}")
+print(f"✅ Página: {{driver.title}}")
 save_screenshot()
 time.sleep(2)
 
-print("\n📍 PASO 2: Ingresando credenciales")
+print("\n📍 PASO 2: Localizando campos de login")
 try:
-    email_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//input[@type='email' or @name='email' or @id='email']"))
-    )
+    email_selectors = [
+        "//input[@type='email']",
+        "//input[@name='email']",
+        "//input[@id='email']",
+        "//input[contains(@placeholder, 'email') or contains(@placeholder, 'Email')]",
+        "//input[contains(@class, 'email')]"
+    ]
+    
+    email_field = None
+    for selector in email_selectors:
+        try:
+            email_field = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.XPATH, selector))
+            )
+            print(f"✅ Campo email encontrado: {{selector}}")
+            break
+        except:
+            continue
+    
+    if not email_field:
+        raise Exception("Campo de email no encontrado")
+    
     driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{block: 'center'}});", email_field)
     time.sleep(1)
+    save_screenshot()
+    
     email_field.clear()
-    for char in email:
-        email_field.send_keys(char)
-        time.sleep(0.05)
+    email_field.send_keys(email)
     print(f"✅ Email ingresado: {{email}}")
     time.sleep(1)
     
-    password_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//input[@type='password']"))
-    )
+except Exception as e:
+    print(f"❌ Error con campo email: {{e}}")
+    save_screenshot()
+    raise
+
+print("\n📍 PASO 3: Ingresando contraseña")
+try:
+    password_selectors = [
+        "//input[@type='password']",
+        "//input[@name='password']",
+        "//input[@id='password']",
+        "//input[contains(@placeholder, 'password') or contains(@placeholder, 'Password')]"
+    ]
+    
+    password_field = None
+    for selector in password_selectors:
+        try:
+            password_field = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.XPATH, selector))
+            )
+            print(f"✅ Campo password encontrado: {{selector}}")
+            break
+        except:
+            continue
+    
+    if not password_field:
+        raise Exception("Campo de contraseña no encontrado")
+    
     driver.execute_script("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView({{block: 'center'}});", password_field)
     time.sleep(1)
+    save_screenshot()
+    
     password_field.clear()
-    for i, char in enumerate(password):
-        password_field.send_keys(char)
-        time.sleep(0.05)
-        if (i + 1) % 3 == 0:
-            print(f"🔒 {{'*' * (i + 1)}}")
-    print("✅ Contraseña ingresada")
-    save_screenshot()
-    time.sleep(2)
+    password_field.send_keys(password)
+    print(f"✅ Contraseña ingresada: {{'*' * len(password)}}")
+    time.sleep(1)
+    
 except Exception as e:
-    print(f"❌ Error en credenciales: {{e}}")
+    print(f"❌ Error con campo password: {{e}}")
     save_screenshot()
+    raise
 
-print("\n📍 PASO 3: Clickeando botón de login")
+print("\n📍 PASO 4: Clickeando botón de login")
 try:
-    login_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, "//button[@type='submit' or contains(text(), 'Iniciar') or contains(text(), 'Login') or contains(text(), 'Entrar')]"))
-    )
+    button_selectors = [
+        "//button[@type='submit']",
+        "//button[contains(text(), 'Iniciar')]",
+        "//button[contains(text(), 'Login')]",
+        "//button[contains(text(), 'Entrar')]",
+        "//input[@type='submit']",
+        "//button[contains(@class, 'login')]",
+        "//a[contains(@class, 'login')]"
+    ]
+    
+    login_button = None
+    for selector in button_selectors:
+        try:
+            login_button = WebDriverWait(driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, selector))
+            )
+            print(f"✅ Botón encontrado: {{selector}}")
+            break
+        except:
+            continue
+    
+    if not login_button:
+        raise Exception("Botón de login no encontrado")
+    
     driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{block: 'center'}});", login_button)
     time.sleep(2)
     save_screenshot()
+    
     login_button.click()
     print("✅ Botón clickeado")
     time.sleep(5)
+    
 except Exception as e:
-    print(f"❌ Error al clickear: {{e}}")
+    print(f"❌ Error al clickear botón: {{e}}")
     save_screenshot()
+    raise
 
-print("\n📍 PASO 4: Validando redirección")
+print("\n📍 PASO 5: Validación de login exitoso")
 time.sleep(3)
 current_url = driver.current_url
 page_title = driver.title
 print(f"🔗 URL actual: {{current_url}}")
 print(f"📄 Título: {{page_title}}")
 
-success_indicators = [
-    "dashboard" in current_url.lower(),
-    "home" in current_url.lower(),
-    "inicio" in current_url.lower(),
-    "perfil" in current_url.lower(),
-    "profile" in current_url.lower()
+success_checks = [
+    ("URL cambió", url not in current_url),
+    ("Dashboard", "dashboard" in current_url.lower()),
+    ("Home", "home" in current_url.lower()),
+    ("Perfil", "perfil" in current_url.lower() or "profile" in current_url.lower()),
+    ("Esperado", expected_result.lower() in current_url.lower())
 ]
 
-if any(success_indicators) or expected_result.lower() in current_url.lower():
+login_successful = False
+for check_name, check_result in success_checks:
+    if check_result:
+        print(f"✅ {{check_name}}: Validado")
+        login_successful = True
+
+if login_successful:
     print("\n" + "=" * 80)
     print("✅ LOGIN EXITOSO")
     print("=" * 80)
     driver.execute_script("""
-        var div = document.createElement('div');
-        div.innerHTML = '✅ LOGIN EXITOSO';
-        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:32px;z-index:10000;border-radius:20px;box-shadow:0 0 30px rgba(0,255,0,0.5);';
-        document.body.appendChild(div);
+        var overlay = document.createElement('div');
+        overlay.innerHTML = '<div style="font-size:48px;">✅</div><div>LOGIN EXITOSO</div>';
+        overlay.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:60px 80px;font-size:32px;z-index:99999;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center;font-family:Arial,sans-serif;font-weight:bold;';
+        document.body.appendChild(overlay);
     """)
     save_screenshot()
     time.sleep(3)
 else:
-    print("\n❌ LOGIN NO CONFIRMADO")
+    print("\n⚠️ LOGIN NO CONFIRMADO (validaciones fallaron)")
     save_screenshot()
 
 print("\n🏁 FIN DEL TEST")
@@ -117,15 +218,12 @@ print("=" * 80)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-⚠️ RECORDATORIO FINAL:
+⚠️ ÚLTIMA ADVERTENCIA:
 
-NO escribas:
-- "Entendido, aquí está..."
-- "Voy a generar el código..."
-- "¿Necesitas algo más?"
-- Cualquier texto que NO sea código Python
+NO escribas texto adicional. NO hagas preguntas. NO pidas aclaraciones.
+TODAS las variables están arriba. El driver YA existe. Los selectores están en el código.
 
-Tu respuesta completa debe ser ÚNICAMENTE código Python ejecutable.
-La primera línea DEBE ser: # Configuración
+Tu respuesta COMPLETA debe ser ÚNICAMENTE código Python ejecutable.
+Primera línea: # Configuración
 
-GENERA AHORA EL CÓDIGO (sin ningún texto adicional):
+GENERA EL CÓDIGO AHORA (sin texto antes ni después):
