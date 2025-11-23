@@ -11,6 +11,7 @@ from app.models.prompt_model import Prompt
 # Importar rutas
 from app.routes import cases, execute, dashboard
 
+
 # Crear tablas si no existen
 try:
     print("[DB] Conectando a base de datos...")
@@ -39,7 +40,7 @@ app.add_middleware(
 logger = setup_logger("main")
 logger.info("[INICIO] Servidor QA Automation Backend")
 logger.info(f"[EXECUTOR] URL: {settings.AGENT_EXECUTOR_URL}")
-logger.info(f"[GRID] Modo: {'ENABLED' if settings.USE_SELENIUM_GRID else 'DISABLED'}")
+
 
 # Registrar rutas
 app.include_router(cases.router, prefix="/api/cases", tags=["Casos de prueba"])
@@ -54,5 +55,5 @@ def root():
         "message": "QA Automation Backend activo",
         "version": settings.PROJECT_VERSION,
         "executor_service": settings.AGENT_EXECUTOR_URL,
-        "selenium_grid": settings.USE_SELENIUM_GRID
+       
     }

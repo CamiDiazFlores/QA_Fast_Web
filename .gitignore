@@ -3,3 +3,11 @@
 .venv
 /.venv
 ./venv
+README.md
+venv/
+__pycache__/
+*.pyc
+.env
+.git/
+.vscode/
+LICENSE
