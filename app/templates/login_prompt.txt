@@ -1,119 +1,64 @@
-Genera código Python ejecutable para login tradicional (usuario/contraseña).
-
-# Datos del Test
-URL: {url}
-Usuario: {username}
-Contraseña: {password}
-Resultado Esperado: {expected_result}
-
-# CÓDIGO CON EJECUCIÓN VISUAL
-
-```python
 # Configuración
 url = "{url}"
-username = "{username}"
-password = "{password}"
+email = "{email}"
+navigate_url = "{navigate_url}"
 
 print("=" * 80)
-print("🚀 INICIO: LOGIN TRADICIONAL")
+print("🚀 INICIO: LOGIN CON GOOGLE AUTH")
 print("=" * 80)
 
-# Navegación
-print("\n📍 PASO 1: Navegando a {{url}}")
+# PASO 1: Navegación
+print("\n📍 PASO 1: Navegando a la URL de login")
 driver.get(url)
 time.sleep(3)
-driver.execute_script("document.body.style.border='5px solid blue';")
-print(f"✅ Página cargada: {{driver.title}}")
-time.sleep(1)
+driver.execute_script("document.body.style.border='5px solid purple';")
+print(f"✅ Página cargada: {driver.title}")
+save_screenshot()
+time.sleep(2)
 
-# Buscar campo usuario
-print("\n📍 PASO 2: Buscando campo de usuario")
+# PASO 2: Buscar botón de Google Auth
+print("\n📍 PASO 2: Buscando botón 'Continuar con Google'")
 try:
-    username_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//input[@type='text'] | //input[@name='username'] | //input[@id='username']"))
+    google_auth_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Continuar con Google') or contains(@aria-label, 'Google')]"))
     )
-    
-    # Resaltar campo
-    driver.execute_script("""
-        arguments[0].style.border = '3px solid orange';
-        arguments[0].style.backgroundColor = '#fff3cd';
-        arguments[0].scrollIntoView({{block: 'center'}});
-    """, username_field)
+    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({block: 'center'});", google_auth_button)
     time.sleep(1)
-    
-    print("✅ Campo de usuario encontrado")
-    
-    # Escribir usuario letra por letra
-    username_field.clear()
-    for char in username:
-        username_field.send_keys(char)
-        time.sleep(0.15)
-    
-    print(f"✅ Usuario ingresado: {{username}}")
-    time.sleep(2)
-    
-except Exception as e:
-    print(f"❌ Error: {{e}}")
-    save_screenshot()
-
-# Buscar campo contraseña
-print("\n📍 PASO 3: Buscando campo de contraseña")
-try:
-    password_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//input[@type='password']"))
-    )
-    
-    driver.execute_script("""
-        arguments[0].style.border = '3px solid red';
-        arguments[0].style.backgroundColor = '#f8d7da';
-        arguments[0].scrollIntoView({{block: 'center'}});
-    """, password_field)
-    time.sleep(1)
-    
-    print("✅ Campo de contraseña encontrado")
-    
-    # Escribir contraseña (con asteriscos visuales)
-    for i, char in enumerate(password):
-        password_field.send_keys(char)
-        time.sleep(0.15)
-        print(f"🔒 Escribiendo... {{'*' * (i+1)}}")
-    
-    print("✅ Contraseña ingresada")
-    time.sleep(2)
-    
-except Exception as e:
-    print(f"❌ Error: {{e}}")
-    save_screenshot()
-
-# Buscar botón login
-print("\n📍 PASO 4: Buscando botón de login")
-try:
-    login_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, "//button[@type='submit'] | //button[contains(text(), 'Login')] | //input[@type='submit']"))
-    )
-    
-    driver.execute_script("""
-        arguments[0].style.border = '5px solid green';
-        arguments[0].scrollIntoView({{block: 'center'}});
-    """, login_button)
-    time.sleep(1)
-    
-    print("✅ Botón de login encontrado")
-    login_button.click()
-    print("✅ Clic en botón de login")
+    google_auth_button.click()
+    print("✅ Botón 'Continuar con Google' clickeado")
     time.sleep(5)
-    
 except Exception as e:
-    print(f"❌ Error: {{e}}")
+    print(f"❌ Error al buscar o clicar el botón de Google Auth: {e}")
     save_screenshot()
 
-# Validación
-print("\n📍 PASO 5: Validando login exitoso")
+# PASO 3: Redirección a términos y condiciones
+print("\n📍 PASO 3: Validando redirección a términos y condiciones")
 time.sleep(3)
 current_url = driver.current_url
+if "terminos" in current_url.lower():
+    print("✅ Redirigido a la pantalla de términos y condiciones")
+    try:
+        accept_terms_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Aceptar') or contains(text(), 'Continuar')]")
+        )
+        driver.execute_script("arguments[0].style.border='3px solid green'; arguments[0].scrollIntoView({block: 'center'});", accept_terms_button)
+        time.sleep(1)
+        accept_terms_button.click()
+        print("✅ Términos aceptados")
+        time.sleep(5)
+    except Exception as e:
+        print(f"❌ Error al aceptar términos: {e}")
+        save_screenshot()
+else:
+    print("❌ No se redirigió a la pantalla de términos y condiciones")
+    save_screenshot()
 
-if "dashboard" in current_url.lower() or "home" in current_url.lower():
-    print("✅ LOGIN EXITOSO")
+# PASO 4: Validación de redirección final
+print("\n📍 PASO 4: Validando redirección final a la página de inicio")
+time.sleep(3)
+current_url = driver.current_url
+if navigate_url in current_url:
+    print("✅ Redirigido correctamente a la página de inicio")
     driver.execute_script("""
         var div = document.createElement('div');
         div.innerHTML = '✅ LOGIN EXITOSO';
@@ -123,9 +68,8 @@ if "dashboard" in current_url.lower() or "home" in current_url.lower():
     save_screenshot()
     time.sleep(3)
 else:
-    print("❌ LOGIN FALLIDO")
+    print("❌ Redirección final fallida")
     save_screenshot()
-```
 
-REGLAS: Resaltar elementos, escribir lentamente, alertas visuales, NO clases.
-Variables: driver, By, Keys, time, WebDriverWait, EC, save_screenshot()
+print("\n🏁 FIN DEL TEST")
+print("=" * 80)
