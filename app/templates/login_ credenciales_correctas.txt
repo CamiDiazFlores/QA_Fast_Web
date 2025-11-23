@@ -1,29 +1,45 @@
-SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
+⚠️ SISTEMA AUTOMÁTICO - SOLO CÓDIGO PYTHON - SIN EXCEPCIONES ⚠️
 
-PROHIBIDO:
-❌ "Entendido"
-❌ Análisis del test
-❌ Reportes
-❌ Explicaciones
-❌ Markdown ```python```
-❌ Preguntas sobre credenciales
-
-OBLIGATORIO:
-✅ Primera línea debe ser: # Configuración
-✅ Solo código Python puro
-✅ Sin texto adicional antes o después del código
+TU RESPUESTA SERÁ EJECUTADA DIRECTAMENTE POR exec() EN PYTHON.
+CUALQUIER TEXTO QUE NO SEA CÓDIGO PYTHON CAUSARÁ UN ERROR FATAL.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-TEST DE LOGIN CON EMAIL Y CONTRASEÑA
+🚨 REGLAS ABSOLUTAS (INCUMPLIMIENTO = FALLO DEL SISTEMA):
+
+❌ PROHIBIDO ABSOLUTAMENTE (causará error fatal):
+   - Escribir "Entendido" o cualquier palabra similar
+   - Escribir "✅ TEST DE LOGIN COMPLETADO"
+   - Escribir "Ejecución del Test:", "Configuración:", "Resultados:"
+   - Hacer preguntas: "¿Cuáles son las credenciales?"
+   - Análisis, reportes, explicaciones, resúmenes
+   - Usar markdown: ```python``` o ``` o cualquier formato
+   - Texto antes del código: "Aquí está", "Voy a", etc.
+   - Texto después del código: "¿Cómo fue?", "Tarea completada", etc.
+
+✅ OBLIGATORIO (única forma válida de responder):
+   1. Tu PRIMERA LÍNEA debe ser EXACTAMENTE: # Configuración
+   2. Segunda línea: url = "{url}"
+   3. Resto: Solo código Python ejecutable
+   4. NADA MÁS - ni una palabra adicional
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 DATOS DEL TEST (TODO YA PROPORCIONADO - NO PREGUNTES NADA):
+
 URL: {url}
 Email: {email}
-Contraseña: {password}
+Password: {password}
 Resultado esperado: {expected_result}
+
+Entorno ya configurado (NO inicialices nada):
+✓ driver = RemoteWebDriver (YA existe)
+✓ By, Keys, time, WebDriverWait, EC (YA importados)
+✓ save_screenshot() (función YA disponible)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-GENERA AHORA EL CÓDIGO (sin texto adicional):
+📝 FORMATO EXACTO DE RESPUESTA (copia EXACTAMENTE esta estructura):
 
 # Configuración
 url = "{url}"
@@ -32,127 +48,91 @@ password = "{password}"
 expected_result = "{expected_result}"
 
 print("=" * 80)
-print("🚀 INICIO: LOGIN CON EMAIL Y CONTRASEÑA")
+print("🚀 INICIO: LOGIN")
 print("=" * 80)
 
-# PASO 1: Navegación
-print("\n📍 PASO 1: Navegando a {{url}}")
+print("\n📍 PASO 1: Navegación")
 driver.get(url)
 time.sleep(3)
 driver.execute_script("document.body.style.border='5px solid purple';")
-print(f"✅ Página cargada: {{{{driver.title}}}}")
+print(f"✅ Página: {{driver.title}}")
 save_screenshot()
 time.sleep(2)
 
-# PASO 2: Campo Email
-print("\n📍 PASO 2: Ingresando email")
+print("\n📍 PASO 2: Campo email")
 try:
     email_field = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//input[@type='email' or @name='email' or @id='email' or contains(@placeholder, 'mail')]"))
     )
-    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", email_field)
+    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{block: 'center'}});", email_field)
     time.sleep(1)
     email_field.clear()
     for char in email:
         email_field.send_keys(char)
         time.sleep(0.05)
-    print(f"✅ Email ingresado: {{{{email}}}}")
+    print(f"✅ Email: {{email}}")
     save_screenshot()
     time.sleep(1)
 except Exception as e:
-    print(f"❌ Error en email: {{{{e}}}}")
+    print(f"❌ Error email: {{e}}")
     save_screenshot()
 
-# PASO 3: Campo Contraseña
-print("\n📍 PASO 3: Ingresando contraseña")
+print("\n📍 PASO 3: Campo password")
 try:
     password_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//input[@type='password' or @name='password' or @id='password']"))
+        EC.presence_of_element_located((By.XPATH, "//input[@type='password']"))
     )
-    driver.execute_script("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", password_field)
+    driver.execute_script("arguments[0].style.border='3px solid red'; arguments[0].scrollIntoView({{block: 'center'}});", password_field)
     time.sleep(1)
     password_field.clear()
     for i, char in enumerate(password):
         password_field.send_keys(char)
         time.sleep(0.05)
         if (i + 1) % 3 == 0:
-            print(f"🔒 {{{{'*' * (i+1)}}}}")
-    print("✅ Contraseña ingresada")
+            print(f"🔒 {{'*' * (i+1)}}")
+    print("✅ Password ingresado")
     save_screenshot()
     time.sleep(1)
 except Exception as e:
-    print(f"❌ Error en contraseña: {{{{e}}}}")
+    print(f"❌ Error password: {{e}}")
     save_screenshot()
 
-# PASO 4: Botón de Login
-print("\n📍 PASO 4: Clickeando botón de login")
+print("\n📍 PASO 4: Botón login")
 try:
     login_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, "//button[@type='submit' or contains(text(), 'Iniciar') or contains(text(), 'Login') or contains(text(), 'Entrar') or contains(text(), 'Acceder')]"))
+        EC.element_to_be_clickable((By.XPATH, "//button[@type='submit' or contains(text(), 'Iniciar') or contains(text(), 'Login') or contains(text(), 'Entrar')]"))
     )
-    driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", login_button)
+    driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{block: 'center'}});", login_button)
     time.sleep(2)
     save_screenshot()
     login_button.click()
-    print("✅ Botón clickeado")
+    print("✅ Click realizado")
     time.sleep(5)
 except Exception as e:
-    print(f"❌ Error al clickear botón: {{{{e}}}}")
+    print(f"❌ Error click: {{e}}")
     save_screenshot()
 
-# PASO 5: Validación de Login
-print("\n📍 PASO 5: Validando login exitoso")
+print("\n📍 PASO 5: Validación")
 time.sleep(3)
 current_url = driver.current_url
-page_title = driver.title
-print(f"🔗 URL actual: {{{{current_url}}}}")
-print(f"📄 Título: {{{{page_title}}}}")
+print(f"🔗 URL: {{current_url}}")
 
-success_indicators = [
+login_ok = any([
     "dashboard" in current_url.lower(),
     "home" in current_url.lower(),
-    "inicio" in current_url.lower(),
     "perfil" in current_url.lower(),
-    "profile" in current_url.lower(),
     expected_result.lower() in current_url.lower(),
     url not in current_url
-]
+])
 
-success_messages = [
-    "//*[contains(text(), 'bienvenido')]",
-    "//*[contains(text(), 'Bienvenido')]",
-    "//div[contains(@class, 'success')]",
-    "//div[contains(@class, 'dashboard')]"
-]
-
-login_successful = False
-
-for check in success_indicators:
-    if check:
-        login_successful = True
-        print("✅ Indicador de éxito: URL cambió correctamente")
-        break
-
-if not login_successful:
-    for selector in success_messages:
-        try:
-            success_elem = driver.find_element(By.XPATH, selector)
-            if success_elem.is_displayed():
-                driver.execute_script("arguments[0].style.border='5px solid green'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", success_elem)
-                print(f"✅ Mensaje: {{{{success_elem.text}}}}")
-                login_successful = True
-                break
-        except:
-            continue
-
-if login_successful:
+if login_ok:
     print("\n" + "=" * 80)
     print("✅ LOGIN EXITOSO")
     print("=" * 80)
     driver.execute_script("""
         var div = document.createElement('div');
-        div.innerHTML = '✅ LOGIN EXITOSO';
-        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:32px;z-index:10000;border-radius:20px;box-shadow:0 0 30px rgba(0,255,0,0.5);';
+        div.innerHTML = '✅ LOGIN OK';
+        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:32px;z-index:10000;border-radius:20px;';
         document.body.appendChild(div);
     """)
     save_screenshot()
@@ -161,5 +141,21 @@ else:
     print("\n❌ LOGIN FALLIDO")
     save_screenshot()
 
-print("\n🏁 FIN DEL TEST")
+print("\n🏁 FIN")
 print("=" * 80)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ ÚLTIMA ADVERTENCIA CRÍTICA:
+
+NO escribas:
+- "✅ TEST DE LOGIN COMPLETADO EXITOSAMENTE"
+- "Ejecución del Test:"
+- "Archivos Generados:"
+- "¿Cómo fue este resultado?"
+- Cualquier texto que no sea código Python
+
+Tu respuesta COMPLETA = SOLO el código de arriba (desde # Configuración hasta el final).
+NADA antes. NADA después. SOLO código Python.
+
+GENERA AHORA (respuesta = código Python puro, sin nada más):
