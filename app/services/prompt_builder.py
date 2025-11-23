@@ -75,7 +75,7 @@ class PromptBuilder:
             has_password = bool(re.search(r'(contraseña|password|clave)[:\s]+\w+', text, re.IGNORECASE))
             
             if has_success_indicator or (has_email and has_password):
-                return "login_completo_correcto"
+                return "login_credenciales_correctas"
         
         # 5. Registro de usuario
         elif any(keyword in text for keyword in ['registr', 'register', 'sign up', 'crear cuenta', 'nueva cuenta', 'crea tu cuenta']):
@@ -159,18 +159,18 @@ class PromptBuilder:
         elif test_type == "login_facebook_auth":
             data["email"] = input_data.get("email") or self._extract_email(test_case) or "andersonveelezca@gmail.com"
         
-        elif test_type == "login_completo_correcto":
-            data["email"] = input_data.get("email") or self._extract_email(test_case) or "testuser@example.com"
-            data["password"] = input_data.get("password") or self._extract_password(test_case) or "Test123!"
+        elif test_type == "login_credenciales_correctas":
+            data["email"] = input_data.get("email") or self._extract_email(test_case) or "carmen_llanos@gmail.com"
+            data["password"] = input_data.get("password") or self._extract_password(test_case) or "carmenLlanos123#"
         
         elif test_type == "login_credenciales_incorrectas":
             data["email"] = input_data.get("email") or "usuario_invalido@example.com"
             data["password"] = input_data.get("password") or "password_incorrecta"
             data["expected_result"] = "Credenciales incorrectas o error de autenticación"
         
-        elif test_type == "google_oauth_login":
-            data["email"] = input_data.get("email") or self._extract_email(test_case) or "andersonveelezca@gmail.com"
-            data["oauth_provider"] = "Google"
+       # elif test_type == "google_oauth_login":
+            #data["email"] = input_data.get("email") or self._extract_email(test_case) or "andersonveelezca@gmail.com"
+            #data["oauth_provider"] = "Google"
         
         elif test_type == "traditional_login":
             data["username"] = input_data.get("username") or self._extract_username(test_case) or "testuser"
