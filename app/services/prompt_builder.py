@@ -168,9 +168,9 @@ class PromptBuilder:
             data["password"] = input_data.get("password") or "password_incorrecta"
             data["expected_result"] = "Credenciales incorrectas o error de autenticación"
         
-       # elif test_type == "google_oauth_login":
-            #data["email"] = input_data.get("email") or self._extract_email(test_case) or "andersonveelezca@gmail.com"
-            #data["oauth_provider"] = "Google"
+        elif test_type == "google_oauth_login":
+            data["email"] = input_data.get("email") or self._extract_email(test_case) or "andersonveelezca@gmail.com"
+            data["oauth_provider"] = "Google"
         
         elif test_type == "traditional_login":
             data["username"] = input_data.get("username") or self._extract_username(test_case) or "testuser"
