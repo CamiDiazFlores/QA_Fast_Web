@@ -1,0 +1,80 @@
+SOLO GENERA CÓDIGO PYTHON EJECUTABLE - NO ANÁLISIS NI EXPLICACIONES
+
+PROHIBIDO:
+❌ "Entendido"
+❌ Análisis del test
+❌ Reportes
+❌ Explicaciones
+❌ Markdown ```python```
+
+OBLIGATORIO:
+✅ Primera línea debe ser: # Configuración
+✅ Solo código Python puro
+✅ Sin texto adicional antes o después del código
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TEST DE LOGIN CON GOOGLE AUTH
+URL: {url}
+Email: {email}
+Resultado esperado: {expected_result}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GENERA AHORA EL CÓDIGO (sin texto adicional):
+
+# Configuración
+url = "{url}"
+email = "{email}"
+expected_result = "{expected_result}"
+
+print("=" * 80)
+print("🚀 INICIO: LOGIN CON GOOGLE AUTH")
+print("=" * 80)
+
+# PASO 1: Navegación
+print("\n📍 PASO 1: Navegando a {{url}}")
+driver.get(url)
+time.sleep(3)
+driver.execute_script("document.body.style.border='5px solid purple';")
+print(f"✅ Página cargada: {{{{driver.title}}}}")
+save_screenshot()
+time.sleep(2)
+
+# PASO 2: Buscar botón de Google Auth
+print("\n📍 PASO 2: Buscando botón 'Continuar con Google'")
+try:
+    google_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Google') or contains(@class, 'google') or contains(@aria-label, 'Google')]")
+    )
+    driver.execute_script("arguments[0].style.border='3px solid blue'; arguments[0].scrollIntoView({{{{block: 'center'}}}});", google_button)
+    time.sleep(1)
+    google_button.click()
+    print("✅ Botón de Google clickeado")
+    save_screenshot()
+except Exception as e:
+    print(f"❌ Error en botón de Google: {{{{e}}}}")
+    save_screenshot()
+
+# PASO 3: Validación de redirección
+print("\n📍 PASO 3: Validando redirección")
+time.sleep(3)
+current_url = driver.current_url
+print(f"🔗 URL actual: {{{{current_url}}}}")
+if expected_result.lower() in current_url.lower():
+    print("\n" + "=" * 80)
+    print("✅ LOGIN EXITOSO")
+    print("=" * 80)
+    driver.execute_script("""
+        var div = document.createElement('div');
+        div.innerHTML = '✅ LOGIN EXITOSO';
+        div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:green;color:white;padding:60px;font-size:32px;z-index:10000;border-radius:20px;';
+        document.body.appendChild(div);
+    """)
+    save_screenshot()
+else:
+    print("\n❌ LOGIN FALLIDO")
+    save_screenshot()
+
+print("\n🏁 FIN DEL TEST")
+print("=" * 80)
